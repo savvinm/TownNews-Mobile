@@ -139,14 +139,9 @@ class APIService{
             return UIImage(data: imageData)!
         }
     private func compressImage(image: UIImage)-> String?{
-        var compression = 0.4
-        var imageData = image.jpegData(compressionQuality: compression)
-        var imageBase64 = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-        /*while(imageBase64.count > 900000){
-            compression = compression-0.1
-            imageData = image.jpegData(compressionQuality: compression)
-            imageBase64 = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-        }*/
+        let compression = 0.4
+        let imageData = image.jpegData(compressionQuality: compression)
+        let imageBase64 = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
         return imageBase64
     }
 }

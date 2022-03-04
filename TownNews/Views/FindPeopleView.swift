@@ -10,12 +10,12 @@ import SwiftUI
 import AVFoundation
 
 struct FindPeopleView: View {
-    @StateObject var vm = MissingsListViewModel()
+    @ObservedObject var mvm: MissingsListViewModel
     var body: some View {
         NavigationView{
             ScrollView{
                 LazyVStack{
-                    ForEach(vm.missings){ missing in
+                    ForEach(mvm.missings){ missing in
                         NavigationLink{
                             MissingView(missing: missing)
                         } label: {
@@ -46,7 +46,7 @@ struct FindPeopleView: View {
                 }
             }
             .onAppear() {
-                vm.fetchMissings()
+                mvm.fetchMissings()
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Объявления о пропаже")
@@ -61,7 +61,8 @@ struct FindPeopleView: View {
 
 struct FindPeopleView_Previews: PreviewProvider {
     static var previews: some View {
-        FindPeopleView()
+        let mvm = MissingsListViewModel()
+        FindPeopleView(mvm: mvm)
             .previewDevice("iPhone 11")
 .previewInterfaceOrientation(.portrait)
     }

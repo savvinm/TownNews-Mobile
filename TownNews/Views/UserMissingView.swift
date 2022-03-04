@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct UserMissingView: View {
-    @StateObject var vm = MissingsListViewModel()
+    @ObservedObject var mvm: MissingsListViewModel
     var body: some View {
-        if(vm.missings.count == 0){
+        if(mvm.missings.count == 0){
             VStack{
                 Spacer()
                 Text("Не найдено созданных вами объявлений").multilineTextAlignment(.center).foregroundColor(.secondary)
@@ -19,7 +19,7 @@ struct UserMissingView: View {
         }
         ScrollView{
             LazyVStack{
-                ForEach(vm.missings){ missing in
+                ForEach(mvm.missings){ missing in
                     NavigationLink{
                         CreatorMissingView(missing: missing)
                     } label: {
@@ -51,13 +51,14 @@ struct UserMissingView: View {
             }
         }
         .onAppear() {
-            vm.fetchUserMissings()
+            mvm.fetchUserMissings()
         }
     }
 }
 
 struct UserMissingView_Previews: PreviewProvider {
     static var previews: some View {
-        UserMissingView()
+        let mvm = MissingsListViewModel()
+        UserMissingView(mvm:mvm)
     }
 }

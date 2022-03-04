@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MissingView: View {
-    var missing: Missing
+    let missing: Missing
     var body: some View {
         ScrollView{
             Text("Пропал человек").font(.headline)

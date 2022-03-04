@@ -9,10 +9,9 @@ import SwiftUI
 import AVFoundation
 
 struct MainPageView: View {
-    @StateObject var avm = ArticlesListViewModel()
-    @StateObject var tvm = TagsListViewModel()
+    @ObservedObject var avm: ArticlesListViewModel
+    @ObservedObject var tvm: TagsListViewModel
     @State var selection: Int = 1
-    @State var options: [Tag] = [Tag(id: 1, title: "Все новости", important: false)]
     var body: some View {
         NavigationView{
             ScrollView{
@@ -106,7 +105,9 @@ struct MainPageView: View {
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPageView()
+        let avm = ArticlesListViewModel()
+        let tvm = TagsListViewModel()
+        MainPageView(avm: avm, tvm: tvm)
             .previewDevice("iPhone 11")
 .previewInterfaceOrientation(.portrait)
     }

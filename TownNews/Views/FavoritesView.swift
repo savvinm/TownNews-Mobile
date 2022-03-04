@@ -7,7 +7,7 @@
 
 import SwiftUI
 struct FavoritesView: View {
-    @StateObject var avm = ArticlesListViewModel()
+    @ObservedObject var avm: ArticlesListViewModel
     var body: some View {
         if(avm.articles.count == 0){
             VStack{
@@ -65,6 +65,7 @@ struct FavoritesView: View {
 
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoritesView()
+        let avm = ArticlesListViewModel()
+        FavoritesView(avm: avm)
     }
 }

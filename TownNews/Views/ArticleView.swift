@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ArticleView: View {
-    var article: Article
+    let article: Article
     @State var isFavorite: Bool
     var body: some View {
         ScrollView{

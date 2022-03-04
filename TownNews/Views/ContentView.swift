@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    let avm = ArticlesListViewModel()
+    let pvm = PromosListViewModel()
+    let mvm = MissingsListViewModel()
+    let tvm = TagsListViewModel()
     var body: some View {
         TabView {
-            MainPageView().tabItem(){
+            MainPageView(avm: avm, tvm: tvm).tabItem(){
                 Image(systemName: "house.fill")
             }
-            FindPeopleView().tabItem(){
+            FindPeopleView(mvm:mvm).tabItem(){
                 Image(systemName: "person.fill.questionmark")
             }
-            PromoView().tabItem(){
+            PromoView(pvm:pvm).tabItem(){
                 Image(systemName: "giftcard.fill")
             }
             AccountView().tabItem(){

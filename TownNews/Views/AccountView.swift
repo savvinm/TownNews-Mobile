@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AccountView: View {
+    let avm = ArticlesListViewModel()
+    let mvm = MissingsListViewModel()
     var body: some View {
         NavigationView{
             Form{
@@ -20,12 +22,12 @@ struct AccountView: View {
                 }
                 Section(header: Text("Мое")){
                     NavigationLink{
-                        FavoritesView()
+                        FavoritesView(avm: avm)
                     } label: {
                         Text("Избранное")
                     }
                     NavigationLink{
-                        UserMissingView()
+                        UserMissingView(mvm: mvm)
                     } label: {
                         Text("Мои объявления")
                     }

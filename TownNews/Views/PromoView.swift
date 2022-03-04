@@ -8,14 +8,14 @@
 import SwiftUI
 import MobileCoreServices
 struct PromoView: View {
-    @StateObject var vm = PromosListViewModel()
+    @ObservedObject var pvm: PromosListViewModel
     @State var id = 0
     var body: some View {
         NavigationView{
             ZStack{
                 ScrollView{
                         LazyVStack{
-                        ForEach(vm.promos){ promo in
+                        ForEach(pvm.promos){ promo in
                                 VStack{
                                     Spacer()
                                     Text(promo.title).multilineTextAlignment(.center)
@@ -64,7 +64,7 @@ struct PromoView: View {
                     }
                 .onAppear(){
                     id = 0
-                    vm.fetchPromos()
+                    pvm.fetchPromos()
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -75,6 +75,7 @@ struct PromoView: View {
 
 struct PromoView_Previews: PreviewProvider {
     static var previews: some View {
-        PromoView()
+        let pvm = PromosListViewModel()
+        PromoView(pvm:pvm)
     }
 }
