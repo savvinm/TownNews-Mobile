@@ -1,2 +1,2 @@
 # TownNews-Mobile
-[It's a mobile app for this STProject](https://github.com/savvinm/STProject)
+[It's a mobile app for this project](https://github.com/savvinm/TownNews)
