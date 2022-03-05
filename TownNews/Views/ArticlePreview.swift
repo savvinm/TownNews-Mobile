@@ -21,12 +21,12 @@ struct ArticlePreview: View{
                     //.scaledToFill()
                     .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
                     .clipped()
-                    .cornerRadius(10)
+                    //.cornerRadius(10)
                 }
                 placeholder: {
                     ProgressView()
                 }
-                .frame(width: UIScreen.main.bounds.width - 150, height: UIScreen.main.bounds.height * 0.3)
+                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.3)
                 Spacer()
                 Text(article.title)
                     .font(.headline)

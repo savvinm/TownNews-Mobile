@@ -17,7 +17,7 @@ struct FindPeopleView: View {
                 LazyVStack{
                     ForEach(mvm.missings){ missing in
                         NavigationLink{
-                            MissingView(missing: missing)
+                            MissingView(missing: missing, title: nil)
                         } label: {
                             VStack{
                                     HStack{

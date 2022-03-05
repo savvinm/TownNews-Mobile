@@ -14,6 +14,13 @@ class SharedViewModel{
         let task = URLSession.shared.dataTask(with: url!)
         task.resume()
     }
+    
+    func sendDeleteFor(_ missing: Missing){
+        let url = URL(string: "https://townnews.site/deletemissing/" + String(missing.id) + "/" + String(UIDevice.current.identifierForVendor!.uuidString))
+        let task = URLSession.shared.dataTask(with: url!)
+        task.resume()
+    }
+    
     static func getFullURLToImage(url: String) -> URL{
         URL(string: "https://townnews.site/getimage/" + url)!
     }

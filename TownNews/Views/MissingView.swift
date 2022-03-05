@@ -9,17 +9,16 @@ import SwiftUI
 
 struct MissingView: View {
     let missing: Missing
+    let title: String?
     var body: some View {
         ScrollView{
-            Text("Пропал человек").font(.headline)
-            let url = URL(string: "https://townnews.site/getimage/" + missing.imageUrl)
-            AsyncImage(url: url){ image in
+            Text(title ?? "Пропал человек").font(.headline)
+            AsyncImage(url: SharedViewModel.getFullURLToImage(url: missing.imageUrl)){ image in
                 image.resizable()
                 .scaledToFit()
-                .frame(width: UIScreen.main.bounds.height/2.5)
+                .frame(width: UIScreen.main.bounds.height/2)
             } placeholder: {
                 ProgressView().frame(width: 100, height: 100)
-            
             }
             /*Section(header: Text("")){
 
@@ -38,103 +37,46 @@ struct MissingView: View {
             }
         }
     }*/
-        
-        
-        
-        
-                VStack{
-                    VStack{
-                        HStack{
-                            Text("Имя:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.name)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Возраст:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.age)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Пол:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.sex)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Приметы:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.characteristics)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Особые приметы:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.specCharacteristics)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Последнее местонахождение:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.lastLocation)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Был одет:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.clothes)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                    VStack{
-                        HStack{
-                            Text("Телефон для связи:").font(.body.weight(.bold))
-                            Spacer()
-                        }
-                        HStack{
-                            Text(missing.telephone)
-                            Spacer()
-                        }
-                    }
-                    .padding(.bottom)
-                }
-                .font(.callout)
+
+            VStack{
+
+                MissingSection(label: "Имя", value: missing.name)
+                
+                MissingSection(label: "Возраст", value: missing.age)
+
+                MissingSection(label: "Пол", value: missing.sex)
+
+                MissingSection(label: "Приметы", value: missing.characteristics)
+                
+                MissingSection(label: "Особые приметы", value: missing.specCharacteristics)
+                
+                MissingSection(label: "Последнее местонахождение", value: missing.lastLocation)
+                
+                MissingSection(label: "Был одет", value: missing.clothes)
+
+                MissingSection(label: "Телефон для связи", value: missing.telephone)
+
+            }
+            .font(.callout)
         }
-        //.padding(.top, -20)
         .padding([.leading, .bottom, .trailing])
+    }
+}
+
+struct MissingSection: View{
+    let label: String
+    let value: String
+    var body: some View{
+        VStack{
+            HStack{
+                Text(label + ":").font(.body.weight(.bold))
+                Spacer()
+            }
+            HStack{
+                Text(value)
+                Spacer()
+            }
+        }
+        .padding(.bottom)
     }
 }

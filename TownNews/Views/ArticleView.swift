@@ -16,8 +16,7 @@ struct ArticleView: View {
                 Text(article.title)
                     .font(.headline)
                     .multilineTextAlignment(.center)
-                let url = URL(string: "https://townnews.site/getimage/" + article.imageUrl)
-                AsyncImage(url: url){ image in
+                AsyncImage(url: SharedViewModel.getFullURLToImage(url: article.imageUrl)){ image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: UIScreen.main.bounds.width * 0.95)

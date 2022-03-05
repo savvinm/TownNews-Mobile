@@ -12,11 +12,11 @@ struct PromoView: View {
     @State var id = 0
     var body: some View {
         NavigationView{
-            ZStack{
+            if(!pvm.promos.isEmpty){
                 ScrollView{
                     LazyVStack{
                         ForEach(pvm.promos){promo in
-                            PromoPreview(promo: promo, id: id)
+                            PromoPreview(promo: promo, curentId: id)
                                 .padding(.top)
                                 .onTapGesture {
                                     if(id != promo.id){
@@ -34,31 +34,44 @@ struct PromoView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("Предложения от партнеров")
             }
+            else{
+                VStack{
+                    Spacer()
+                    Text("На данный момент нет активных предложений").multilineTextAlignment(.center)
+                    Spacer()
+                }
+                .foregroundColor(.secondary)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Предложения от партнеров")
+                .onAppear(){
+                    id = 0
+                    pvm.fetchPromos()
+                }
+            }
         }
     }
 }
 
 struct PromoPreview: View{
     let promo: Promo
-    let id: Int
+    let curentId: Int
     var body: some View{
         VStack{
             Spacer()
             Text(promo.title).multilineTextAlignment(.center)
             Spacer()
-            let url = URL(string: "https://townnews.site/getimage/" + promo.imageUrl)
-            AsyncImage(url: url){ image in
+            AsyncImage(url: SharedViewModel.getFullURLToImage(url: promo.imageUrl)){ image in
                 image.resizable()
-                    .scaledToFill()
+                    .scaledToFit()
                     .cornerRadius(10)
             } placeholder: {
                 ProgressView()
-            }.frame(width: 100, height: 110)
+            }.frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.2)
             Spacer()
             ZStack{
                 HStack{
                     Text(promo.promocode)
-                    if(id == promo.id){
+                    if(curentId == promo.id){
                         Image(systemName:
                         "doc.on.doc.fill")
                     }
@@ -69,13 +82,13 @@ struct PromoPreview: View{
                 HStack{
                     
                 }
-                .frame(width: UIScreen.main.bounds.width - 50, height: 40)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
                 .cornerRadius(10)
                 .background(Color.secondary)
                 .opacity(0.1)
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.3)
+        .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.4)
         .background(Color(.systemGray6))
         .cornerRadius(10)
     }

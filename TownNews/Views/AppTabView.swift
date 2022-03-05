@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct AppTabView: View {
     let avm = ArticlesListViewModel()
     let pvm = PromosListViewModel()
     let mvm = MissingsListViewModel()
@@ -15,16 +15,28 @@ struct ContentView: View {
     var body: some View {
         TabView {
             NewsPageView(avm: avm, tvm: tvm).tabItem(){
-                Image(systemName: "house.fill")
+                VStack{
+                    Image(systemName: "house.fill")
+                    Text("Новости")
+                }
             }
             FindPeopleView(mvm:mvm).tabItem(){
-                Image(systemName: "person.fill.questionmark")
+                VStack{
+                    Image(systemName: "person.fill.questionmark")
+                    Text("Объявления")
+                }
             }
             PromoView(pvm:pvm).tabItem(){
-                Image(systemName: "giftcard.fill")
+                VStack{
+                    Image(systemName: "giftcard.fill")
+                    Text("Промокоды")
+                }
             }
             AccountView().tabItem(){
-                Image(systemName: "list.bullet")
+                VStack{
+                    Image(systemName: "list.bullet")
+                    Text("Аккаунт")
+                }
             }
         }
     }
@@ -32,6 +44,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        AppTabView()
     }
 }
