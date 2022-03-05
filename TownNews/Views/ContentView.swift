@@ -14,7 +14,7 @@ struct ContentView: View {
     let tvm = TagsListViewModel()
     var body: some View {
         TabView {
-            MainPageView(avm: avm, tvm: tvm).tabItem(){
+            NewsPageView(avm: avm, tvm: tvm).tabItem(){
                 Image(systemName: "house.fill")
             }
             FindPeopleView(mvm:mvm).tabItem(){

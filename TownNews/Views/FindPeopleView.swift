@@ -63,7 +63,6 @@ struct FindPeopleView_Previews: PreviewProvider {
     static var previews: some View {
         let mvm = MissingsListViewModel()
         FindPeopleView(mvm: mvm)
-            .previewDevice("iPhone 11")
 .previewInterfaceOrientation(.portrait)
     }
 }

@@ -57,6 +57,8 @@ class APIService{
         }
         .resume()
     }
+
+    
     func postMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacterisitcs: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
         guard let url = URL(string: urlString) else {return}
         var request = URLRequest(url: url)
@@ -96,7 +98,7 @@ class APIService{
         task.resume()
     }
     
-    func resizeImage(_ image:UIImage) -> UIImage
+    private func resizeImage(_ image:UIImage) -> UIImage
         {
             var actualHeight:Float = Float(image.size.height)
             var actualWidth:Float = Float(image.size.width)

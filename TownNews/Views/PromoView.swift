@@ -14,64 +14,73 @@ struct PromoView: View {
         NavigationView{
             ZStack{
                 ScrollView{
-                        LazyVStack{
-                        ForEach(pvm.promos){ promo in
-                                VStack{
-                                    Spacer()
-                                    Text(promo.title).multilineTextAlignment(.center)
-                                    Spacer()
-                                    let url = URL(string: "https://townnews.site/getimage/" + promo.imageUrl)
-                                    AsyncImage(url: url){ image in
-                                        image.resizable()
-                                            .scaledToFill()
-                                            .cornerRadius(10)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }.frame(width: 100, height: 110)
-                                    Spacer()
-                                    ZStack{
-                                        HStack{
-                                            Text(promo.promocode)
-                                            if(id == promo.id){
-                                                Image(systemName:
-                                                "doc.on.doc.fill")
-                                            }
-                                            else{
-                                                Image(systemName: "doc.on.doc")
-                                            }
-                                        }
-                                        HStack{
-                                            
-                                        }
-                                        .frame(width: UIScreen.main.bounds.width - 50, height: 40)
-                                        .cornerRadius(10)
-                                        .background(Color.secondary)
-                                        .opacity(0.1)
-                                    }
-                                }
-                                .frame(width: UIScreen.main.bounds.width - 50, height: 220)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
+                    LazyVStack{
+                        ForEach(pvm.promos){promo in
+                            PromoPreview(promo: promo, id: id)
+                                .padding(.top)
                                 .onTapGesture {
                                     if(id != promo.id){
                                         UIPasteboard.general.string = promo.promocode
                                         id = promo.id
                                     }
                                 }
-                            }
-                        .padding()
                         }
                     }
-                .onAppear(){
-                    id = 0
-                    pvm.fetchPromos()
+                    .onAppear(){
+                        id = 0
+                        pvm.fetchPromos()
+                    }
                 }
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Предложения от партнеров")
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Предложения от партнеров")
         }
     }
 }
+
+struct PromoPreview: View{
+    let promo: Promo
+    let id: Int
+    var body: some View{
+        VStack{
+            Spacer()
+            Text(promo.title).multilineTextAlignment(.center)
+            Spacer()
+            let url = URL(string: "https://townnews.site/getimage/" + promo.imageUrl)
+            AsyncImage(url: url){ image in
+                image.resizable()
+                    .scaledToFill()
+                    .cornerRadius(10)
+            } placeholder: {
+                ProgressView()
+            }.frame(width: 100, height: 110)
+            Spacer()
+            ZStack{
+                HStack{
+                    Text(promo.promocode)
+                    if(id == promo.id){
+                        Image(systemName:
+                        "doc.on.doc.fill")
+                    }
+                    else{
+                        Image(systemName: "doc.on.doc")
+                    }
+                }
+                HStack{
+                    
+                }
+                .frame(width: UIScreen.main.bounds.width - 50, height: 40)
+                .cornerRadius(10)
+                .background(Color.secondary)
+                .opacity(0.1)
+            }
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.3)
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
+    }
+}
+
 
 struct PromoView_Previews: PreviewProvider {
     static var previews: some View {
