@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 class MissingsListViewModel: ObservableObject{
-    @Published var missings: [Missing] = []
+    
+    @Published private(set) var missings: [Missing] = []
     
     func fetchMissings() {
         let apiService = APIService(urlString: "https://townnews.site/missinglist")

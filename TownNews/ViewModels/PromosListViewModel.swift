@@ -7,7 +7,8 @@
 
 import Foundation
 class PromosListViewModel: ObservableObject{
-    @Published var promos: [Promo] = []
+    
+    @Published private(set) var promos: [Promo] = []
     
     func fetchPromos() {
         let apiService = APIService(urlString: "https://townnews.site/promoslist")

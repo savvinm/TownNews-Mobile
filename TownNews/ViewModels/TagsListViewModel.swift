@@ -6,9 +6,10 @@
 //
 
 import Foundation
-import SwiftUI
+
 class TagsListViewModel: ObservableObject{
-    @Published var tags: [Tag] = []
+    
+    @Published private(set) var tags: [Tag] = []
     
     func fetchTags() {
         let apiService = APIService(urlString: "https://townnews.site/tagslist")
@@ -18,17 +19,10 @@ class TagsListViewModel: ObservableObject{
                 DispatchQueue.main.async {
                     self.tags = [Tag(id: 1, title: "Все новости", important: false)]
                     self.tags.append(contentsOf: tags)
-                    //self.tags = tags
                 }
             case .failure(let error):
                 print(error)
             }
         }
-    }
-    func getTags() -> [Tag]{
-        fetchTags()
-        var res = [Tag(id: 1, title: "Все новости", important: false)]
-        res.append(contentsOf: self.tags)
-        return res
     }
 }
