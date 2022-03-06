@@ -23,9 +23,7 @@ struct NewsPageView: View {
                     .padding(.horizontal)
                 }
             }
-            .onAppear() {
-                tvm.fetchTags()
-            }
+            .onAppear(){ tvm.fetchTags() }
             .navigationTitle("Новости")
         }
     }
@@ -35,7 +33,7 @@ struct NewsPageView: View {
 
 
 
-struct MenuPicker: View{
+private struct MenuPicker: View{
     @State var selection: Int = 1
     let tags: Array<Tag>
     let avm: ArticlesListViewModel
@@ -68,7 +66,7 @@ struct MenuPicker: View{
                 .background(Color(.systemGray6))
                 .cornerRadius(15)
             }
-            .onAppear(){avm.fetchArticles(tagId: selection)}
+            .onAppear(){ avm.fetchArticles(tagId: selection) }
         }
     }
 }

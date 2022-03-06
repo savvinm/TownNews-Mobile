@@ -27,7 +27,7 @@ struct AccountView: View {
                         Text("Избранное")
                     }
                     NavigationLink{
-                        UserMissingView(mvm: mvm)
+                        CreatorMissingsView(mvm: mvm)
                     } label: {
                         Text("Мои объявления")
                     }

@@ -26,6 +26,7 @@ struct FavoritesView: View {
                 }
             }
         .onAppear(){ avm.fetchFavorite() }
+        .navigationTitle("Избранное")
     }
 }
 

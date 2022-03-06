@@ -10,7 +10,7 @@ import UIKit
 
 class APIService{
     @Published var status: Bool = false
-    let urlString: String
+    private let urlString: String
 
     init(urlString: String){
         self.urlString = urlString

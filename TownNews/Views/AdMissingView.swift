@@ -12,11 +12,10 @@ struct AdMissingView: View {
     @State private var firstName = ""
     @State private var secondName = ""
     @State private var sex = ""
-    @State private var age = "1"
     @State private var birthdate = Date()
-    @State private var characteristic = ""
+    @State private var characteristics = ""
     @FocusState private var charIsFocused: Bool
-    @State private var specCharacteristic = ""
+    @State private var specCharacteristics = ""
     @FocusState private var specCharIsFocused: Bool
     @State private var lastLocation = ""
     @FocusState private var lastLocIsFocused: Bool
@@ -65,7 +64,7 @@ struct AdMissingView: View {
                 DatePicker("Дата рождения", selection: $birthdate, displayedComponents: .date)
             }
             Section(header: Text("Приметы")){
-                TextEditor(text: $characteristic)
+                TextEditor(text: $characteristics)
                     .focused($charIsFocused)
                 if(charIsFocused){
                     HStack{
@@ -78,7 +77,7 @@ struct AdMissingView: View {
                 }
             }
             Section(header: Text("Особые приметы")){
-                TextEditor(text: $specCharacteristic)
+                TextEditor(text: $specCharacteristics)
                     .focused($specCharIsFocused)
                 if(specCharIsFocused){
                     HStack{
@@ -131,13 +130,12 @@ struct AdMissingView: View {
                 }
             }
             if(phoneNumber.count == 12 && firstName != ""
-               && secondName != "" && clothes != ""  && lastLocation != "" && characteristic != ""  && specCharacteristic != ""  && image != nil && sex != ""){
+               && secondName != "" && clothes != ""  && lastLocation != "" && characteristics != ""  && specCharacteristics != ""  && image != nil && sex != ""){
                 HStack{
                     Spacer()
                     Button("Отправить на опубликацию"){
-                        let url = "https://townnews.site/addmissing"
-                        let api = APIService(urlString: url)
-                        api.postMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristic, specCharacterisitcs: specCharacteristic, dateOfBirth: birthdate, image: inputImage!, lastLocation: lastLocation, phoneNumber: phoneNumber)
+                        let api = SharedViewModel()
+                        api.sendMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacteristics: specCharacteristics, dateOfBirth: birthdate, image: inputImage!, lastLocation: lastLocation, phoneNumber: phoneNumber)
                         shAlert = true
                     }
                     .alert("Объявление отправлено на опубликацию", isPresented: $shAlert){

@@ -52,7 +52,7 @@ struct PromoView: View {
     }
 }
 
-struct PromoPreview: View{
+private struct PromoPreview: View{
     let promo: Promo
     let curentId: Int
     var body: some View{

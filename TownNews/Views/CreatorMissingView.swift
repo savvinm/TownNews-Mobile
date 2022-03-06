@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CreatorMissingView: View {
-    var missing: Missing
+    let missing: Missing
     @State private var shAlert = false
     @Environment(\.presentationMode) var presentationMode:Binding<PresentationMode>
     var body: some View {

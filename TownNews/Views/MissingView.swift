@@ -63,7 +63,7 @@ struct MissingView: View {
     }
 }
 
-struct MissingSection: View{
+private struct MissingSection: View{
     let label: String
     let value: String
     var body: some View{
