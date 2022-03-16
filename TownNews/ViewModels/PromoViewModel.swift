@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class PromosListViewModel: ObservableObject{
+class PromoViewModel: ObservableObject{
     
     @Published private(set) var promos: [Promo] = []
     

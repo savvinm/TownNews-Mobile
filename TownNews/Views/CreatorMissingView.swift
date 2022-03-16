@@ -20,12 +20,17 @@ struct CreatorMissingView: View {
                 MissingView(missing: missing, title: "Ожидает проверки")
             }
         }
-        .navigationBarItems(trailing: Button(action: {
+        .navigationBarItems(trailing: deleteButton)
+
+    }
+    
+    private var deleteButton: some View{
+        Button(action: {
             shAlert = true
         }, label: {
             Image(systemName: "trash.fill")
-        }))
-        .alert("Удалить данное объявление?", isPresented: $shAlert){
+        })
+            .alert("Удалить данное объявление?", isPresented: $shAlert){
             Button("Нет", role: .cancel, action: {})
             Button("Да", role: .destructive, action: {
                 let api = SharedViewModel()

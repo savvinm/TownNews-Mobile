@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TagsListViewModel: ObservableObject{
+class TagViewModel: ObservableObject{
     
     @Published private(set) var tags: [Tag] = []
     

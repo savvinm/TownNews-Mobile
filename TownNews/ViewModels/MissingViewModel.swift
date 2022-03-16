@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-class MissingsListViewModel: ObservableObject{
+class MissingViewModel: ObservableObject{
     
     @Published private(set) var missings: [Missing] = []
     

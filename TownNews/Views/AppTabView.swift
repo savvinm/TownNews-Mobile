@@ -8,35 +8,51 @@
 import SwiftUI
 
 struct AppTabView: View {
-    let avm = ArticlesListViewModel()
-    let pvm = PromosListViewModel()
-    let mvm = MissingsListViewModel()
-    let tvm = TagsListViewModel()
+    let avm = ArticleViewModel()
+    let pvm = PromoViewModel()
+    let mvm = MissingViewModel()
+    let tvm = TagViewModel()
     var body: some View {
         TabView {
-            NewsPageView(avm: avm, tvm: tvm).tabItem(){
-                VStack{
-                    Image(systemName: "house.fill")
-                    Text("Новости")
-                }
+            newsTab
+            missingTab
+            promoTab
+            accountTab
+        }
+    }
+    
+    private var missingTab: some View{
+        FindPeopleView(mvm:mvm).tabItem(){
+            VStack{
+                Image(systemName: "person.fill.questionmark")
+                Text("Объявления")
             }
-            FindPeopleView(mvm:mvm).tabItem(){
-                VStack{
-                    Image(systemName: "person.fill.questionmark")
-                    Text("Объявления")
-                }
+        }
+    }
+    
+    private var accountTab: some View{
+        AccountView().tabItem(){
+            VStack{
+                Image(systemName: "list.bullet")
+                Text("Аккаунт")
             }
-            PromoView(pvm:pvm).tabItem(){
-                VStack{
-                    Image(systemName: "giftcard.fill")
-                    Text("Промокоды")
-                }
+        }
+    }
+    
+    private var promoTab: some View{
+        PromoView(pvm:pvm).tabItem(){
+            VStack{
+                Image(systemName: "giftcard.fill")
+                Text("Промокоды")
             }
-            AccountView().tabItem(){
-                VStack{
-                    Image(systemName: "list.bullet")
-                    Text("Аккаунт")
-                }
+        }
+    }
+    
+    private var newsTab: some View{
+        NewsPageView(avm: avm, tvm: tvm).tabItem(){
+            VStack{
+                Image(systemName: "house.fill")
+                Text("Новости")
             }
         }
     }

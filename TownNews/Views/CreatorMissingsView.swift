@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct CreatorMissingsView: View {
-    @ObservedObject var mvm: MissingsListViewModel
+    @ObservedObject var mvm: MissingViewModel
     var body: some View {
         if(mvm.missings.isEmpty){
-            VStack{
-                Spacer()
-                Text("Не найдено созданных вами объявлений").multilineTextAlignment(.center).foregroundColor(.secondary)
-                Spacer()
-            }
+            emptyMessage
         }
+        missingsScrollView
+    }
+    
+    private var missingsScrollView: some View{
         ScrollView{
             LazyVStack{
                 ForEach(mvm.missings){ MissingPreview(missing: $0, isCreator: true) }
@@ -26,11 +26,19 @@ struct CreatorMissingsView: View {
         .onAppear(){ mvm.fetchUserMissings() }
         .navigationBarTitle("Мои объявления")
     }
+    
+    private var emptyMessage: some View{
+        VStack{
+            Spacer()
+            Text("Не найдено созданных вами объявлений").multilineTextAlignment(.center).foregroundColor(.secondary)
+            Spacer()
+        }
+    }
 }
 
 struct UserMissingView_Previews: PreviewProvider {
     static var previews: some View {
-        let mvm = MissingsListViewModel()
+        let mvm = MissingViewModel()
         CreatorMissingsView(mvm:mvm)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-class ArticlesListViewModel: ObservableObject{
+class ArticleViewModel: ObservableObject{
     
     @Published private(set) var articles: [Article] = []
     
@@ -43,6 +43,14 @@ class ArticlesListViewModel: ObservableObject{
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func toggleFavorite(for article: Article){
+        if let index = articles.firstIndex(where: {$0.id == article.id}){
+            let api = SharedViewModel()
+            api.sendArticleIdForFavorite(article.id)
+            articles[index].isFavorite.toggle()
         }
     }
 }

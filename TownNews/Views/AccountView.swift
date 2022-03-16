@@ -8,33 +8,41 @@
 import SwiftUI
 
 struct AccountView: View {
-    let avm = ArticlesListViewModel()
-    let mvm = MissingsListViewModel()
+    let avm = ArticleViewModel()
+    let mvm = MissingViewModel()
     var body: some View {
         NavigationView{
             Form{
-                Section(header: Text("")){
-                    NavigationLink{
-                        AdMissingView()
-                    } label: {
-                        Text("Создать объявление о пропаже")
-                    }
-                }
-                Section(header: Text("Мое")){
-                    NavigationLink{
-                        FavoritesView(avm: avm)
-                    } label: {
-                        Text("Избранное")
-                    }
-                    NavigationLink{
-                        CreatorMissingsView(mvm: mvm)
-                    } label: {
-                        Text("Мои объявления")
-                    }
-                }
+                accountIntents
+                accountPages
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Аккаунт")
+        }
+    }
+    
+    private var accountPages: some View{
+        Section(header: Text("Мое")){
+            NavigationLink{
+                FavoritesView(avm: avm)
+            } label: {
+                Text("Избранное")
+            }
+            NavigationLink{
+                CreatorMissingsView(mvm: mvm)
+            } label: {
+                Text("Мои объявления")
+            }
+        }
+    }
+    
+    private var accountIntents: some View{
+        Section(header: Text("")){
+            NavigationLink{
+                AdMissingView()
+            } label: {
+                Text("Создать объявление о пропаже")
+            }
         }
     }
 }

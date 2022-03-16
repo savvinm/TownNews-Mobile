@@ -13,6 +13,6 @@ struct Article: Codable, Identifiable{
     let content: String
     let imageUrl: String
     let tag: String
-    let isFavorite: Bool
+    var isFavorite: Bool
     let creationTime: String
 }
