@@ -13,42 +13,46 @@ struct PromoView: View {
     var body: some View {
         NavigationView{
             if(!pvm.promos.isEmpty){
-                ScrollView{
-                    LazyVStack{
-                        ForEach(pvm.promos){promo in
-                            PromoPreview(promo: promo, curentId: id)
-                                .padding(.top)
-                                .onTapGesture {
-                                    if(id != promo.id){
-                                        UIPasteboard.general.string = promo.promocode
-                                        id = promo.id
-                                    }
-                                }
-                        }
-                    }
-                    .onAppear(){
-                        id = 0
-                        pvm.fetchPromos()
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("Предложения от партнеров")
+                promoScrollView
             }
             else{
-                VStack{
-                    Spacer()
-                    Text("На данный момент нет активных предложений").multilineTextAlignment(.center)
-                    Spacer()
+                emptyMessage
                 }
-                .foregroundColor(.secondary)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("Предложения от партнеров")
-                .onAppear(){
-                    id = 0
-                    pvm.fetchPromos()
+        }
+        .onAppear(){
+            id = 0
+            pvm.fetchPromos()
+        }
+    }
+    
+    private var promoScrollView: some View{
+        ScrollView{
+            LazyVStack{
+                ForEach(pvm.promos){promo in
+                    PromoPreview(promo: promo, curentId: id)
+                        .padding(.top)
+                        .onTapGesture {
+                            if(id != promo.id){
+                                UIPasteboard.general.string = promo.promocode
+                                id = promo.id
+                            }
+                        }
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Предложения от партнеров")
+    }
+    
+    private var emptyMessage: some View{
+        VStack{
+            Spacer()
+            Text("На данный момент нет активных предложений").multilineTextAlignment(.center)
+            Spacer()
+        }
+        .foregroundColor(.secondary)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Предложения от партнеров")
     }
 }
 

@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct AppTabView: View {
+    @State var activeTab = TabIdentifier.news
     let avm = ArticleViewModel()
     let pvm = PromoViewModel()
     let mvm = MissingViewModel()
     let tvm = TagViewModel()
     var body: some View {
-        TabView {
+        TabView(selection: $activeTab) {
             newsTab
+                .tag(TabIdentifier.news)
             missingTab
+                .tag(TabIdentifier.find)
             promoTab
+                .tag(TabIdentifier.promo)
             accountTab
+                .tag(TabIdentifier.account)
+        }
+        .onOpenURL{ url in
+            guard let tab = url.tabIdentifier else { return }
+            activeTab = tab
         }
     }
     
@@ -60,6 +69,6 @@ struct AppTabView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        AppTabView()
+        AppTabView(activeTab: TabIdentifier.news)
     }
 }

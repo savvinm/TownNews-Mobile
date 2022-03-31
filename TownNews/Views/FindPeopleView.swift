@@ -23,6 +23,7 @@ struct FindPeopleView: View {
         .onAppear(){ mvm.fetchMissings() }
     }
     
+    
     private var emptyMessage: some View{
         VStack{
             Spacer()

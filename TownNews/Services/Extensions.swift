@@ -8,6 +8,26 @@
 import Foundation
 import UIKit
 
+enum TabIdentifier: Hashable{
+    case news, find, promo, account
+}
+
+extension URL{
+    var isDeepLink: Bool{
+        return scheme == "townnews.app"
+    }
+    var tabIdentifier: TabIdentifier?{
+        guard isDeepLink else { return nil }
+        switch host {
+        case "news": return .news
+        case "find": return .find
+        case "promo": return .promo
+        case "account": return .account
+        default: return nil
+        }
+    }
+}
+
 extension UINavigationController{
     open override func viewDidLoad() {
         super.viewDidLoad()

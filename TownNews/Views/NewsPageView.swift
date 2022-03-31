@@ -18,7 +18,7 @@ struct NewsPageView: View {
             ScrollView{
                 MenuPicker(tags: tvm.tags, avm: avm)
                 LazyVStack{
-                    ForEach(avm.articles){ArticlePreview(article: $0, avm: avm)}
+                    ForEach(avm.articles){ ArticlePreview(article: $0, avm: avm) }
                     .padding(.top, 20)
                     .padding(.horizontal)
                 }
@@ -28,10 +28,6 @@ struct NewsPageView: View {
         }
     }
 }
-
-
-
-
 
 private struct MenuPicker: View{
     @State var selection: Int = 1

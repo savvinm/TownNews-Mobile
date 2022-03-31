@@ -15,6 +15,7 @@ struct FavoritesView: View {
         favoriteScrollView
     }
     
+    
     private var favoriteScrollView: some View{
         ScrollView{
             LazyVStack{

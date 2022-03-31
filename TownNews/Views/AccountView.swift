@@ -33,7 +33,9 @@ struct AccountView: View {
             } label: {
                 Text("Мои объявления")
             }
+            Link("Пользовательское соглашение", destination: URL(string: "https://www.example.com/TOS.html")!)
         }
+        .buttonStyle(PlainButtonStyle())
     }
     
     private var accountIntents: some View{
