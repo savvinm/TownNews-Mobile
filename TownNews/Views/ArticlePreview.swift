@@ -9,14 +9,8 @@ import SwiftUI
 
 struct ArticlePreview: View{
     let article: Article
-    let avm: ArticleViewModel
     var body: some View{
-        NavigationLink{
-            ArticleView(article: article, avm: avm)
-        } label: {
-            previewLabel
-        }
-        .buttonStyle(PlainButtonStyle())
+        previewLabel
     }
     
     private var previewLabel: some View{
@@ -27,8 +21,8 @@ struct ArticlePreview: View{
             Spacer()
             previewTag
         }
-        .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.45)
-        .background(Color(.systemGray6))
+        .frame(height: UIScreen.main.bounds.height * 0.45)
+        .background(Color(.systemGray5))
         .cornerRadius(10)
     }
     

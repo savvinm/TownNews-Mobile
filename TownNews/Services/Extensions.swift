@@ -11,6 +11,21 @@ import UIKit
 enum TabIdentifier: Hashable{
     case news, find, promo, account
 }
+enum PageIdentifier: Hashable{
+    case article(id: Int)
+    case missing(id: Int)
+}
+
+extension URL{
+    var detailPage: PageIdentifier?{
+        guard let tab = tabIdentifier, pathComponents.count > 1, let id = Int(pathComponents[1]) else { return nil }
+        switch tabIdentifier{
+        case .news: return .article(id: id)
+        case .find: return .missing(id: id)
+        default: return nil
+        }
+    }
+}
 
 extension URL{
     var isDeepLink: Bool{

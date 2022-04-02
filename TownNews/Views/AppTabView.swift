@@ -26,6 +26,11 @@ struct AppTabView: View {
         }
         .onOpenURL{ url in
             guard let tab = url.tabIdentifier else { return }
+            if tab == .news{
+                if case .article(_) = url.detailPage{
+                    avm.isDeeplinking = true
+                }
+            }
             activeTab = tab
         }
     }

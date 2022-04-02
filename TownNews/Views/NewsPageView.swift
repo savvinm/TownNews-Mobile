@@ -12,39 +12,67 @@ struct NewsPageView: View {
     
     @ObservedObject var avm: ArticleViewModel
     @ObservedObject var tvm: TagViewModel
-    
     var body: some View {
         NavigationView{
-            ScrollView{
-                MenuPicker(tags: tvm.tags, avm: avm)
-                LazyVStack{
-                    ForEach(avm.articles){ ArticlePreview(article: $0, avm: avm) }
-                    .padding(.top, 20)
-                    .padding(.horizontal)
+            List{
+                MenuPicker(selection: avm.currentTag, tags: tvm.tags, avm: avm)
+                    .listRowBackground(Color.clear)
+                ForEach(avm.articles){ article in
+                    ZStack{
+                        NavigationLink(tag: article.id, selection: $avm.activeArticle){
+                            ArticleView(article: article, avm: avm)
+                        } label: {
+                            EmptyView()
+                        }
+                        if let selection = avm.activeArticle{
+                            if selection == article.id{
+                                
+                            }
+                        } else {
+                            ArticlePreview(article: article)
+                        }
+                    }
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(PlainListStyle())
+            }
+            .refreshable {
+                avm.fetchArticles(isRefresh: true)
+                tvm.fetchTags()
+            }
+            .onOpenURL{ url in
+                    if case .article(let id) = url.detailPage {
+                        avm.change(id: id)
+                    }
+            }
+            .onAppear(){
+                tvm.fetchTags()
+                if !avm.isDeeplinking{
+                    avm.fetchArticles(isRefresh: true)
                 }
             }
-            .onAppear(){ tvm.fetchTags() }
             .navigationTitle("Новости")
         }
     }
 }
 
 private struct MenuPicker: View{
-    @State var selection: Int = 1
+    @State var selection: Int
     let tags: Array<Tag>
     let avm: ArticleViewModel
     var body: some View{
         VStack{
             Menu{
-                picker
+                pickerBody
             } label: {
                 pickerLabel
             }
-            .onAppear(){ avm.fetchArticles(tagId: selection) }
         }
     }
     
-    private var picker: some View{
+    private var pickerBody: some View{
         Picker("Filter", selection: $selection) {
             ForEach(tags) { tag in
                 HStack {
@@ -56,7 +84,12 @@ private struct MenuPicker: View{
                 .tag(tag.id)
             }
         }
-        .onChange(of: selection){ avm.fetchArticles(tagId: $0) }
+        .onChange(of: selection){
+            if $0 > 0 && $0 <= tags.count{
+                avm.currentTag = $0
+                avm.fetchArticles(isRefresh: true)
+            }
+        }
         .pickerStyle(InlinePickerStyle())
     }
     
@@ -70,7 +103,7 @@ private struct MenuPicker: View{
         .font(.headline)
         .padding()
         .foregroundColor(.primary)
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray5))
         .cornerRadius(15)
     }
 }
