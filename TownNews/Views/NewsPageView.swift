@@ -15,52 +15,52 @@ struct NewsPageView: View {
     var body: some View {
         NavigationView{
             List{
-                MenuPicker(selection: avm.currentTag, tags: tvm.tags, avm: avm)
+                MenuPicker(selection: avm.currentTag, tvm: tvm, avm: avm)
                     .listRowBackground(Color.clear)
-                ForEach(avm.articles){ article in
-                    ZStack{
-                        NavigationLink(tag: article.id, selection: $avm.activeArticle){
-                            ArticleView(article: article, avm: avm)
-                        } label: {
-                            EmptyView()
-                        }
-                        if let selection = avm.activeArticle{
-                            if selection == article.id{
-                                
-                            }
-                        } else {
-                            ArticlePreview(article: article)
-                        }
-                    }
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                        .listRowSeparator(.hidden)
-                }
-                .listStyle(PlainListStyle())
+                articlesForEach
             }
-            .refreshable {
-                avm.fetchArticles(isRefresh: true)
+            .refreshable{
                 tvm.fetchTags()
+                avm.fetchArticles()
             }
             .onOpenURL{ url in
-                    if case .article(let id) = url.detailPage {
-                        avm.change(id: id)
-                    }
+                if case .article(let id) = url.detailPage {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: { avm.change(id: id) })
+                    //avm.change(id: id)
+                }
             }
             .onAppear(){
                 tvm.fetchTags()
                 if !avm.isDeeplinking{
-                    avm.fetchArticles(isRefresh: true)
+                    avm.fetchArticles()
                 }
             }
             .navigationTitle("Новости")
+        }
+    }
+    
+    private var articlesForEach: some View{
+        ForEach(avm.articles){ article in
+            ZStack{
+                NavigationLink(tag: article.id, selection: $avm.activeArticle){
+                    ArticleView(article: article, avm: avm)
+                } label: {
+                    EmptyView()
+                }
+                if !avm.isDeeplinking{
+                    ArticlePreview(article: article)
+                }
+            }
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+            .listRowSeparator(.hidden)
         }
     }
 }
 
 private struct MenuPicker: View{
     @State var selection: Int
-    let tags: Array<Tag>
+    @ObservedObject var tvm: TagViewModel
     let avm: ArticleViewModel
     var body: some View{
         VStack{
@@ -74,7 +74,7 @@ private struct MenuPicker: View{
     
     private var pickerBody: some View{
         Picker("Filter", selection: $selection) {
-            ForEach(tags) { tag in
+            ForEach(tvm.tags) { tag in
                 HStack {
                     Text(tag.title)
                     if(tag.important){
@@ -85,9 +85,10 @@ private struct MenuPicker: View{
             }
         }
         .onChange(of: selection){
-            if $0 > 0 && $0 <= tags.count{
+            if $0 > 0 && $0 <= tvm.tags.count{
                 avm.currentTag = $0
-                avm.fetchArticles(isRefresh: true)
+                tvm.fetchTags()
+                avm.fetchArticles()
             }
         }
         .pickerStyle(InlinePickerStyle())
@@ -95,8 +96,8 @@ private struct MenuPicker: View{
     
     private var pickerLabel: some View{
         HStack {
-            if(tags.count > 0){
-                Text(tags[selection-1].title)
+            if(tvm.tags.count > 0){
+                Text(tvm.tags[selection-1].title)
             }
         }
         .frame(width: UIScreen.main.bounds.width * 0.75, height: 20)

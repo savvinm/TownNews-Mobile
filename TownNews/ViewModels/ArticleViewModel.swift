@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 class ArticleViewModel: ObservableObject{
     
-    private(set) var articles: [Article] = []
+    @Published private(set) var articles: [Article] = []
     var currentTag = 1
     var isDeeplinking = false
     @Published var activeArticle: Int?
@@ -47,7 +47,10 @@ class ArticleViewModel: ObservableObject{
                     self.articles = [Article]()
                     self.articles.append(article)
                     self.activeArticle = id
-                    self.isDeeplinking = false
+                    //self.isDeeplinking = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){
+                        self.isDeeplinking = false
+                    }
                     //self.fetchArticles(isRefresh: false)
                 }
             case .failure(let error):
@@ -57,7 +60,7 @@ class ArticleViewModel: ObservableObject{
         }
     }
     
-    func fetchArticles(isRefresh: Bool) {
+    func fetchArticles() {
         var urlString = "https://townnews.site/articleslist/" + String(UIDevice.current.identifierForVendor!.uuidString)
         if(currentTag > 1){
             urlString = "https://townnews.site/articleslist/" + String(currentTag-1) + "/" + String(UIDevice.current.identifierForVendor!.uuidString)
@@ -67,14 +70,14 @@ class ArticleViewModel: ObservableObject{
             switch result {
             case .success(let articles):
                 DispatchQueue.main.async {
-                    self.articles = articles
-                    if isRefresh{
-                        if self.activeArticle != nil{
-                            self.activeArticle = nil
-                        } else{
+                    /*let isChanged = !(articles == self.articles)
+                    if isChanged{
+                        self.articles = articles
+                        if isRefresh{
                             self.objectWillChange.send()
                         }
-                    }
+                    }*/
+                    self.articles = articles
                 }
             case .failure(let error):
                 print(error)
@@ -90,7 +93,6 @@ class ArticleViewModel: ObservableObject{
             case .success(let articles):
                 DispatchQueue.main.async {
                     self.articles = articles
-                    self.objectWillChange.send()
                 }
             case .failure(let error):
                 print(error)
