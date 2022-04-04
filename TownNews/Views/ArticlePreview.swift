@@ -29,8 +29,8 @@ struct ArticlePreview: View{
     private var previewTag: some View{
         HStack{
             Spacer()
-            Text("#" + article.tag).font(.footnote
-            )
+            Text("#" + article.tag)
+                .font(.footnote)
                 .padding(.trailing, 5)
                 .padding(.bottom, 2)
         }
@@ -46,14 +46,11 @@ struct ArticlePreview: View{
     private var previewImage: some View{
         AsyncImage(url: SharedViewModel.getFullURLToImage(url: article.imageUrl)){ image in
             image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            //.scaledToFill()
-            .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
-            .clipped()
-            //.cornerRadius(10)
-        }
-        placeholder: {
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+                .clipped()
+        } placeholder: {
             ProgressView()
         }
         .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.3)

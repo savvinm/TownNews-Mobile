@@ -46,7 +46,8 @@ struct MissingView: View {
     
     private var missingImage: some View{
         AsyncImage(url: SharedViewModel.getFullURLToImage(url: missing.imageUrl)){ image in
-            image.resizable()
+            image
+                .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: UIScreen.main.bounds.width * 0.95)
         } placeholder: {

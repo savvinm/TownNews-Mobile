@@ -36,7 +36,7 @@ struct AppTabView: View {
     }
     
     private var missingTab: some View{
-        FindPeopleView(mvm:mvm).tabItem(){
+        MissingsListView(mvm:mvm).tabItem(){
             VStack{
                 Image(systemName: "person.fill.questionmark")
                 Text("Объявления")

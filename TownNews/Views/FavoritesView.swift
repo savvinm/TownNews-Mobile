@@ -9,23 +9,41 @@ import SwiftUI
 struct FavoritesView: View {
     @ObservedObject var avm: ArticleViewModel
     var body: some View {
-        if(avm.articles.isEmpty){
-            emptyMessage
+        VStack{
+            if(avm.articles.isEmpty){
+                emptyMessage
+            } else{
+                favoriteScrollView
+            }
         }
-        favoriteScrollView
+        .navigationTitle("Избранное")
+        .onAppear(){ avm.fetchFavorite() }
     }
     
     
     private var favoriteScrollView: some View{
-        ScrollView{
-            LazyVStack{
-                ForEach(avm.articles){ArticlePreview(article: $0)}
-                    .padding(.top, 20)
-                    .padding(.horizontal)
+        List{
+            articlesForEach
+        }
+        .refreshable{
+            avm.fetchFavorite()
+        }
+    }
+    
+    private var articlesForEach: some View{
+        ForEach(avm.articles){ article in
+            ZStack{
+                NavigationLink(tag: article.id, selection: $avm.activeArticle){
+                    ArticleView(article: article, avm: avm)
+                } label: {
+                    EmptyView()
                 }
+                ArticlePreview(article: article)
             }
-        .onAppear(){ avm.fetchFavorite() }
-        .navigationTitle("Избранное")
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+            .listRowSeparator(.hidden)
+        }
     }
     
     private var emptyMessage: some View{
@@ -35,6 +53,7 @@ struct FavoritesView: View {
             Text("Добавьте понравившиеся вам статьи, чтобы вернуться к ним позже.").multilineTextAlignment(.center)
             Spacer()
         }
+        .padding()
         .foregroundColor(.secondary)
     }
 }

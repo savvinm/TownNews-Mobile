@@ -11,14 +11,17 @@ struct MissingPreview: View {
     let missing: Missing
     var isCreator = false
     var body: some View {
-        NavigationLink{
-            if(!isCreator){
-                MissingView(missing: missing, title: nil)
+        ZStack{
+            NavigationLink{
+                if(!isCreator){
+                    MissingView(missing: missing, title: nil)
+                }
+                else{
+                    CreatorMissingView(missing: missing)
+                }
+            } label: {
+                EmptyView()
             }
-            else{
-                CreatorMissingView(missing: missing)
-            }
-        } label: {
             previewLabel
         }
         .buttonStyle(PlainButtonStyle())
@@ -30,12 +33,13 @@ struct MissingPreview: View {
                 Text(missing.name + ",")
                 Text(missing.age)
             }
+            .padding(.top)
             Spacer()
             previewImage
             Spacer()
         }
-        .padding()
-        .frame(width: UIScreen.main.bounds.width - 50, height: 250).background(Color(.systemGray6))
+        .frame(width: UIScreen.main.bounds.width - 50, height: 250)
+        .background(Color(.systemGray5))
         .cornerRadius(10)
     }
     
@@ -47,7 +51,6 @@ struct MissingPreview: View {
                 .cornerRadius(20)
                 .frame(width: UIScreen.main.bounds.width/2.2, height: UIScreen.main.bounds.width/2.2)
                 .clipped()
-                .padding(.bottom, 0.0)
         } placeholder: {
             ProgressView()
         }.frame(width: 100, height: 110)

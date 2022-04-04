@@ -1,5 +1,5 @@
 //
-//  FindPeopleView.swift
+//  MissingsListView.swift
 //  TownNews
 //
 //  Created by maksim on 16.01.2022.
@@ -9,18 +9,23 @@ import Foundation
 import SwiftUI
 import AVFoundation
 
-struct FindPeopleView: View {
+struct MissingsListView: View {
     @ObservedObject var mvm: MissingViewModel
     var body: some View {
         NavigationView{
-            if(!mvm.missings.isEmpty){
-                missingsScrollView
+            VStack{
+                if(!mvm.missings.isEmpty){
+                    missingsScrollView
+                }
+                else{
+                    emptyMessage
+                }
             }
-            else{
-                emptyMessage
-            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Объявления о пропаже")
+            .navigationBarItems(trailing: addButton)
+            .onAppear(){ mvm.fetchMissings() }
         }
-        .onAppear(){ mvm.fetchMissings() }
     }
     
     
@@ -32,21 +37,18 @@ struct FindPeopleView: View {
         }
         .padding()
         .foregroundColor(.secondary)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Объявления о пропаже")
-        .navigationBarItems(trailing: addButton)
     }
     
     private var missingsScrollView: some View{
-        ScrollView{
-            LazyVStack{
-                ForEach(mvm.missings){ MissingPreview(missing: $0) }
-                .padding(.top)
-            }
+        List{
+            ForEach(mvm.missings){ MissingPreview(missing: $0) }
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                .listRowSeparator(.hidden)
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Объявления о пропаже")
-        .navigationBarItems(trailing: addButton)
+        .refreshable {
+            mvm.fetchMissings()
+        }
     }
     
     private var addButton: some View{
@@ -61,6 +63,6 @@ struct FindPeopleView: View {
 struct FindPeopleView_Previews: PreviewProvider {
     static var previews: some View {
         let mvm = MissingViewModel()
-        FindPeopleView(mvm: mvm)
+        MissingsListView(mvm: mvm)
     }
 }

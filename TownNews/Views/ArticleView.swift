@@ -43,21 +43,22 @@ struct ArticleView: View {
                 .padding(.bottom)
                 .font(.callout)
             HStack{
-                Text(article.creationTime).font(.caption)
+                Text(article.creationTime)
                 Spacer()
-                Text("#" + article.tag).font(.caption)
+                Text("#" + article.tag)
             }
+            .font(.caption)
         }
     }
     
     private var articleImage: some View{
         AsyncImage(url: SharedViewModel.getFullURLToImage(url: article.imageUrl)){ image in
-            image.resizable()
+            image
+                .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: UIScreen.main.bounds.width * 0.95)
         } placeholder: {
-                ProgressView().frame(width: 100, height: 100)
-            
+            ProgressView().frame(width: 100, height: 100)
         }
     }
 }

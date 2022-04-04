@@ -12,36 +12,42 @@ struct PromoView: View {
     @State var id = 0
     var body: some View {
         NavigationView{
-            if(!pvm.promos.isEmpty){
-                promoScrollView
-            }
-            else{
-                emptyMessage
+            VStack{
+                if(!pvm.promos.isEmpty){
+                    promoScrollView
                 }
-        }
-        .onAppear(){
-            id = 0
-            pvm.fetchPromos()
+                else{
+                    emptyMessage
+                    }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Предложения от партнеров")
+            .onAppear(){
+                id = 0
+                pvm.fetchPromos()
+            }
         }
     }
     
     private var promoScrollView: some View{
-        ScrollView{
-            LazyVStack{
-                ForEach(pvm.promos){promo in
-                    PromoPreview(promo: promo, curentId: id)
-                        .padding(.top)
-                        .onTapGesture {
-                            if(id != promo.id){
-                                UIPasteboard.general.string = promo.promocode
-                                id = promo.id
-                            }
+        List{
+            ForEach(pvm.promos){promo in
+                PromoPreview(promo: promo, curentId: id)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        if(id != promo.id){
+                            UIPasteboard.general.string = promo.promocode
+                            id = promo.id
                         }
-                }
+                    }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Предложения от партнеров")
+        .refreshable {
+            id = 0
+            pvm.fetchPromos()
+        }
     }
     
     private var emptyMessage: some View{
@@ -50,9 +56,8 @@ struct PromoView: View {
             Text("На данный момент нет активных предложений").multilineTextAlignment(.center)
             Spacer()
         }
+        .padding()
         .foregroundColor(.secondary)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Предложения от партнеров")
     }
 }
 
@@ -72,8 +77,8 @@ private struct PromoPreview: View{
             Spacer()
             promocodeField
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.4)
-        .background(Color(.systemGray6))
+        .frame(height: UIScreen.main.bounds.height * 0.4)
+        .background(Color(.systemGray5))
         .cornerRadius(10)
     }
     
@@ -90,7 +95,7 @@ private struct PromoPreview: View{
                 }
             }
             Rectangle()
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 40)
+            .frame(height: 40)
             .background(Color.secondary)
             .opacity(0.1)
         }
@@ -98,12 +103,14 @@ private struct PromoPreview: View{
     
     private var promoImage: some View{
         AsyncImage(url: SharedViewModel.getFullURLToImage(url: promo.imageUrl)){ image in
-            image.resizable()
+            image
+                .resizable()
                 .scaledToFit()
                 .cornerRadius(10)
         } placeholder: {
             ProgressView()
-        }.frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.2)
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.2)
     }
 }
 
