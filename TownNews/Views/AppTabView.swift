@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AppTabView: View {
     @State var activeTab = TabIdentifier.news
+    let articleId: Int?
     let avm = ArticleViewModel()
     let pvm = PromoViewModel()
     let mvm = MissingViewModel()
@@ -25,15 +26,23 @@ struct AppTabView: View {
                 .tag(TabIdentifier.account)
         }
         .onOpenURL{ url in
-            guard let tab = url.tabIdentifier else { return }
-            if tab == .news{
-                if case .article(_) = url.detailPage{
-                    avm.isDeeplinking = true
-                }
+            if articleId == nil{
+                onURL(url: url)
             }
-            activeTab = tab
         }
     }
+    
+    
+    private func onURL(url: URL){
+        guard let tab = url.tabIdentifier else { return }
+        if tab == .news{
+            if case .article(_) = url.detailPage{
+                avm.isDeeplinking = true
+            }
+        }
+        activeTab = tab
+    }
+    
     
     private var missingTab: some View{
         MissingsListView(mvm:mvm).tabItem(){
@@ -63,7 +72,7 @@ struct AppTabView: View {
     }
     
     private var newsTab: some View{
-        NewsPageView(avm: avm, tvm: tvm).tabItem(){
+        NewsPageView(articleId: articleId, avm: avm, tvm: tvm).tabItem(){
             VStack{
                 Image(systemName: "house.fill")
                 Text("Новости")
@@ -74,6 +83,6 @@ struct AppTabView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        AppTabView(activeTab: TabIdentifier.news)
+        AppTabView(articleId: nil)
     }
 }

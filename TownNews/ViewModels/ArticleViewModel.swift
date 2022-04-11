@@ -18,8 +18,8 @@ class ArticleViewModel: ObservableObject{
         let isLoad = getOnlyOne(id: id)
         if isLoad{
             activeArticle = id
-            //fetchArticles(isRefresh: false)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){
+                [ unowned self ] in
                 self.isDeeplinking = false
             }
         } else{
@@ -38,20 +38,19 @@ class ArticleViewModel: ObservableObject{
     }
     
     func fetchArticleBy(_ id: Int){
-        let urlString = "https://townnews.site/article/\(String(id))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
+        let urlString = "https://townnews.site/getarticle/\(String(id))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
         let apiService = APIService(urlString: urlString)
         apiService.getJSON {(result: Result<Article, APIError>) in
             switch result {
             case .success(let article):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.articles = [Article]()
                     self.articles.append(article)
                     self.activeArticle = id
-                    //self.isDeeplinking = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){
                         self.isDeeplinking = false
                     }
-                    //self.fetchArticles(isRefresh: false)
                 }
             case .failure(let error):
                 print(error)
@@ -70,13 +69,7 @@ class ArticleViewModel: ObservableObject{
             switch result {
             case .success(let articles):
                 DispatchQueue.main.async {
-                    /*let isChanged = !(articles == self.articles)
-                    if isChanged{
-                        self.articles = articles
-                        if isRefresh{
-                            self.objectWillChange.send()
-                        }
-                    }*/
+                    [ unowned self ] in
                     self.articles = articles
                 }
             case .failure(let error):
@@ -92,6 +85,7 @@ class ArticleViewModel: ObservableObject{
             switch result {
             case .success(let articles):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.articles = articles
                 }
             case .failure(let error):
@@ -106,5 +100,9 @@ class ArticleViewModel: ObservableObject{
             api.sendArticleIdForFavorite(article.id)
             articles[index].isFavorite.toggle()
         }
+    }
+    
+    func urlTo(_ article: Article) -> URL?{
+        URL(string: "https://townnews.site/article/\(article.id)")
     }
 }

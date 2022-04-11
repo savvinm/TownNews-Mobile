@@ -25,10 +25,19 @@ class SharedViewModel{
         URL(string: "https://townnews.site/getimage/" + url)!
     }
     
+    static func initApp() -> DeferredTask?{
+        let url = "https://townnews.site/appinit/\(String(UIDevice.current.systemVersion))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
+        let apiService = APIService(urlString: url)
+        return apiService.fetchTask()
+    }
+    
     func sendMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacteristics: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
         let url = "https://townnews.site/addmissing"
         let api = APIService(urlString: url)
         api.postMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacterisitcs: specCharacteristics, dateOfBirth: dateOfBirth, image: image, lastLocation: lastLocation, phoneNumber: phoneNumber)
     }
-    
+}
+
+struct DeferredTask: Codable{
+    let task: String
 }

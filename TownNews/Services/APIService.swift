@@ -57,6 +57,35 @@ class APIService{
         }
         .resume()
     }
+    
+    func fetchTask(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate,
+                                keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) -> DeferredTask?{
+        guard
+            let url = URL(string: urlString)
+        else {
+            return nil
+        }
+        let (data, response, error) = URLSession.shared.syncRequest(with: url)
+        guard
+            let httpResponse = response as? HTTPURLResponse,
+            httpResponse.statusCode == 200
+        else {
+            return nil
+        }
+        guard error == nil, let data = data
+        else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = dateDecodingStrategy
+        decoder.keyDecodingStrategy = keyDecodingStrategy
+        do {
+            let decodedData = try decoder.decode(DeferredTask.self, from: data)
+            return decodedData
+        } catch {
+            return nil
+        }
+    }
 
     
     func postMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacterisitcs: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
@@ -147,6 +176,7 @@ class APIService{
         return imageBase64
     }
 }
+
 
 enum APIError: Error {
     case invalidURL

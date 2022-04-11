@@ -16,6 +16,7 @@ class PromoViewModel: ObservableObject{
             switch result {
             case .success(let promos):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.promos = promos
                 }
             case .failure(let error):

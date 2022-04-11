@@ -17,6 +17,7 @@ class TagViewModel: ObservableObject{
             switch result {
             case .success(let tags):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.tags = [Tag(id: 1, title: "Все новости", important: false)]
                     self.tags.append(contentsOf: tags)
                 }

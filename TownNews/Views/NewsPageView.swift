@@ -9,7 +9,7 @@ import SwiftUI
 import AVFoundation
 
 struct NewsPageView: View {
-    
+    @State var articleId: Int?
     @ObservedObject var avm: ArticleViewModel
     @ObservedObject var tvm: TagViewModel
     var body: some View {
@@ -26,13 +26,17 @@ struct NewsPageView: View {
             .onOpenURL{ url in
                 if case .article(let id) = url.detailPage {
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: { avm.change(id: id) })
-                    //avm.change(id: id)
                 }
             }
             .onAppear(){
                 tvm.fetchTags()
-                if !avm.isDeeplinking{
-                    avm.fetchArticles()
+                if let id = articleId{
+                    articleId = nil
+                    avm.change(id: id)
+                } else {
+                    if !avm.isDeeplinking{
+                        avm.fetchArticles()
+                    }
                 }
             }
             .navigationTitle("Новости")
@@ -114,6 +118,6 @@ struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
         let avm = ArticleViewModel()
         let tvm = TagViewModel()
-        NewsPageView(avm: avm, tvm: tvm)
+        NewsPageView(articleId: nil, avm: avm, tvm: tvm)
     }
 }

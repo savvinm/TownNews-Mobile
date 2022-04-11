@@ -21,7 +21,14 @@ struct ArticleView: View {
             }
             .padding([.leading, .trailing, .bottom])
         }
-        .navigationBarItems(trailing: favoriteButton)
+        .navigationBarItems(trailing: navigationButtons)
+    }
+    
+    private var navigationButtons: some View{
+        HStack{
+            shareButton
+            favoriteButton
+        }
     }
     
     private var favoriteButton: some View{
@@ -60,6 +67,16 @@ struct ArticleView: View {
         } placeholder: {
             ProgressView().frame(width: 100, height: 100)
         }
+    }
+    
+    private var shareButton: some View{
+        Button(action: {
+            guard let url = avm.urlTo(article) else { return }
+            let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareSheet, animated: true, completion: nil)
+        }, label: {
+            Image(systemName: "square.and.arrow.up")
+        })
     }
 }
 

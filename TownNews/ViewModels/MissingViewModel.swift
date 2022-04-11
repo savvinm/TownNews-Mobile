@@ -17,6 +17,7 @@ class MissingViewModel: ObservableObject{
             switch result {
             case .success(let missings):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.missings = missings
                 }
             case .failure(let error):
@@ -31,6 +32,7 @@ class MissingViewModel: ObservableObject{
             switch result {
             case .success(let missings):
                 DispatchQueue.main.async {
+                    [ unowned self ] in
                     self.missings = missings
                 }
             case .failure(let error):
