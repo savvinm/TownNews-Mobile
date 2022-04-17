@@ -18,7 +18,9 @@ enum PageIdentifier: Hashable{
 
 extension URL{
     var detailPage: PageIdentifier?{
-        guard let tab = tabIdentifier, pathComponents.count > 1, let id = Int(pathComponents[1]) else { return nil }
+        guard let tab = tabIdentifier, pathComponents.count > 1, let id = Int(pathComponents[1]) else {
+            return nil
+        }
         switch tabIdentifier{
         case .news: return .article(id: id)
         case .find: return .missing(id: id)
@@ -31,7 +33,9 @@ extension URL{
     }
     
     var tabIdentifier: TabIdentifier?{
-        guard isDeepLink else { return nil }
+        guard isDeepLink else {
+            return nil
+        }
         switch host {
         case "news": return .news
         case "find": return .find
@@ -134,7 +138,9 @@ extension UIImage {
             break
         }
 
-        guard let newCGImage = ctx.makeImage() else { return nil }
+        guard let newCGImage = ctx.makeImage() else {
+            return nil
+        }
         return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .up)
     }
 }

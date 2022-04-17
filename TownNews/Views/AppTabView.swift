@@ -34,7 +34,9 @@ struct AppTabView: View {
     
     
     private func onURL(url: URL){
-        guard let tab = url.tabIdentifier else { return }
+        guard let tab = url.tabIdentifier else {
+            return
+        }
         if tab == .news{
             if case .article(_) = url.detailPage{
                 avm.isDeeplinking = true

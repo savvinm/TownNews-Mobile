@@ -89,7 +89,9 @@ class APIService{
 
     
     func postMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacterisitcs: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
-        guard let url = URL(string: urlString) else {return}
+        guard let url = URL(string: urlString) else {
+            return
+        }
         var request = URLRequest(url: url)
         let formater = DateFormatter()
         formater.dateFormat = "yyyy-MM-dd"
@@ -169,7 +171,7 @@ class APIService{
 
             return UIImage(data: imageData)!
         }
-    private func compressImage(_ image: UIImage)-> String?{
+    private func compressImage(_ image: UIImage) -> String?{
         let compression = 0.4
         let imageData = image.jpegData(compressionQuality: compression)
         let imageBase64 = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
