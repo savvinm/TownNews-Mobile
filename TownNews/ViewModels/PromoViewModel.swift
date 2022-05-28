@@ -15,9 +15,8 @@ class PromoViewModel: ObservableObject{
         apiService.getJSON {(result: Result<[Promo], APIError>) in
             switch result {
             case .success(let promos):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
-                    self.promos = promos
+                DispatchQueue.main.async { [weak self] in
+                    self?.promos = promos
                 }
             case .failure(let error):
                 print(error)

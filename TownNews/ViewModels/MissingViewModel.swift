@@ -16,9 +16,8 @@ class MissingViewModel: ObservableObject{
         apiService.getJSON {(result: Result<[Missing], APIError>) in
             switch result {
             case .success(let missings):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
-                    self.missings = missings
+                DispatchQueue.main.async { [weak self] in
+                    self?.missings = missings
                 }
             case .failure(let error):
                 print(error)
@@ -31,9 +30,8 @@ class MissingViewModel: ObservableObject{
         apiService.getJSON {(result: Result<[Missing], APIError>) in
             switch result {
             case .success(let missings):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
-                    self.missings = missings
+                DispatchQueue.main.async { [weak self] in
+                    self?.missings = missings
                 }
             case .failure(let error):
                 print(error)

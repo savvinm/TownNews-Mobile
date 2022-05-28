@@ -18,9 +18,8 @@ class ArticleViewModel: ObservableObject{
         let isLoad = getOnlyOne(id: id)
         if isLoad{
             activeArticle = id
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){
-                [ unowned self ] in
-                self.isDeeplinking = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){ [weak self] in
+                self?.isDeeplinking = false
             }
         } else{
             fetchArticleBy(id)
@@ -43,8 +42,10 @@ class ArticleViewModel: ObservableObject{
         apiService.getJSON {(result: Result<Article, APIError>) in
             switch result {
             case .success(let article):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else {
+                        return
+                    }
                     self.articles = [Article]()
                     self.articles.append(article)
                     self.activeArticle = id
@@ -68,9 +69,8 @@ class ArticleViewModel: ObservableObject{
         apiService.getJSON {(result: Result<[Article], APIError>) in
             switch result {
             case .success(let articles):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
-                    self.articles = articles
+                DispatchQueue.main.async { [weak self] in
+                    self?.articles = articles
                 }
             case .failure(let error):
                 print(error)
@@ -84,9 +84,8 @@ class ArticleViewModel: ObservableObject{
         apiService.getJSON {(result: Result<[Article], APIError>) in
             switch result {
             case .success(let articles):
-                DispatchQueue.main.async {
-                    [ unowned self ] in
-                    self.articles = articles
+                DispatchQueue.main.async { [weak self] in
+                    self?.articles = articles
                 }
             case .failure(let error):
                 print(error)
