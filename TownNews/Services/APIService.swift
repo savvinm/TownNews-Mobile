@@ -5,90 +5,118 @@
 //  Created by maksim on 17.01.2022.
 //
 
+import Combine
 import Foundation
-import UIKit
 
-class APIService{
-    @Published var status: Bool = false
-    private let urlString: String
-
-    init(urlString: String){
-        self.urlString = urlString
-    }
-    func getJSON<T: Decodable>(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate,
-                               keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
-                               completion: @escaping(Result<T,APIError>) -> Void) {
-        guard
-            let url = URL(string: urlString)
-        else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode == 200
-            else {
-                completion(.failure(.invalidResponseStatus))
-                return
-            }
-            guard
-                error == nil
-            else {
-                completion(.failure(.dataTaskError))
-                return
-            }
-            guard
-                let data = data
-            else {
-                completion(.failure(.corruptData))
-                return
-            }
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = dateDecodingStrategy
-            decoder.keyDecodingStrategy = keyDecodingStrategy
-            do {
-                let decodedData = try decoder.decode(T.self, from: data)
-                completion(.success(decodedData))
-            } catch {
-                completion(.failure(.decodingError))
-            }
-
-        }
-        .resume()
+final class APIService {
+    enum APIError: Error {
+        case noInternetConnection
+        case invalidURL
+        case invalidResponseStatus
+        case dataTaskError
+        case corruptData
+        case decodingError
+        case somethingWentWrong
     }
     
-    func fetchTask(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate,
-                                keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) -> DeferredTask?{
-        guard
-            let url = URL(string: urlString)
-        else {
-            return nil
-        }
-        let (data, response, error) = URLSession.shared.syncRequest(with: url)
-        guard
-            let httpResponse = response as? HTTPURLResponse,
-            httpResponse.statusCode == 200
-        else {
-            return nil
-        }
-        guard error == nil, let data = data
-        else {
-            return nil
-        }
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = dateDecodingStrategy
-        decoder.keyDecodingStrategy = keyDecodingStrategy
-        do {
-            let decodedData = try decoder.decode(DeferredTask.self, from: data)
-            return decodedData
-        } catch {
-            return nil
-        }
+    enum Endpoint {
+        case articlesList(uuid: String)
+        case articlesListWithFilter(uuid: String, filterTag: Int)
+        case article(uuid: String, articleId: Int)
+        case favorites(uuid: String)
+        case addFavorite(uuid: String, id: Int)
+        case deleteMissing(uuid: String, id: Int)
+        case missingsList
+        case userMissingList(uuid: String)
+        case promosList
+        case tagsList
     }
-
     
-    func postMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacterisitcs: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
+    private let baseURL = "https://townnews.site"
+
+    private func applyEndpoint(_ endpoint: Endpoint) -> String {
+        var stringURL = baseURL
+        switch endpoint {
+        case .articlesList(let uuid):
+            stringURL += "/articleslist/\(uuid)"
+        case .articlesListWithFilter(let uuid, let filterTag):
+            stringURL += "/articleslist/\(filterTag)/\(uuid)"
+        case .article(let uuid, let articleId):
+            stringURL += "/getarticle/\(articleId)/\(uuid))"
+        case .favorites(let uuid):
+            stringURL += "/favoriteslist/\(uuid)"
+        case .addFavorite(let uuid, let id):
+            stringURL += "/addfavorite/\(id)/\(uuid)"
+        case .deleteMissing(let uuid, let id):
+            stringURL += "/deletemissing/\(id)/\(uuid)"
+        case .missingsList:
+            stringURL += "/missinglist"
+        case .userMissingList(let uuid):
+            stringURL += "/usermissinglist/\(uuid)"
+        case .promosList:
+            stringURL += "/promoslist"
+        case .tagsList:
+            stringURL += "/tagslist"
+        }
+        return stringURL
+    }
+    
+    /*
+    func sendArticleIdForFavorite(_ id: Int){
+        let url = URL(string: "https://townnews.site/addfavorite/" + String(id) + "/" + String(UIDevice.current.identifierForVendor!.uuidString))
+        let task = URLSession.shared.dataTask(with: url!)
+        task.resume()
+    }
+    
+    func sendDeleteFor(_ missing: Missing){
+        let url = URL(string: "https://townnews.site/deletemissing/" + String(missing.id) + "/" + String(UIDevice.current.identifierForVendor!.uuidString))
+        let task = URLSession.shared.dataTask(with: url!)
+        task.resume()
+    }
+    */
+    /// This needs to be done on server side when returning articles (or etc) list
+    static func getFullURLToImage(url: String) -> URL{
+        URL(string: "https://townnews.site/getimage/" + url)!
+    }
+    
+    static func initApp() -> DeferredTask?{
+        /*let url = "https://townnews.site/appinit/\(String(UIDevice.current.systemVersion))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
+        let apiService = APIService(urlString: url)
+        return apiService.fetchTask()*/
+        return nil
+    }
+    /*
+    func sendMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacteristics: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
+        /*let url = "https://townnews.site/addmissing"
+        let api = APIService(urlString: url)
+        api.postMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacterisitcs: specCharacteristics, dateOfBirth: dateOfBirth, image: image, lastLocation: lastLocation, phoneNumber: phoneNumber)*/
+    }
+    */
+    
+    
+    
+    func getJSON<T: Decodable>(endpoint: Endpoint) -> AnyPublisher<T, APIError> {
+        guard let url = URL(string: applyEndpoint(endpoint)) else {
+            return Fail(error: APIError.invalidURL)
+                .eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map { $0.data }
+            .decode(type: T.self, decoder: JSONDecoder())
+            .mapError { error -> APIError in
+                switch error {
+                case URLError.notConnectedToInternet:
+                    return .noInternetConnection
+                case URLError.badServerResponse:
+                    return .invalidResponseStatus
+                default:
+                    return .somethingWentWrong
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    /*func postMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacterisitcs: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
         guard let url = URL(string: urlString) else {
             return
         }
@@ -127,63 +155,5 @@ class APIService{
             }
         }
         task.resume()
-    }
-    
-    private func resizeImage(_ image:UIImage) -> UIImage
-        {
-            var actualHeight:Float = Float(image.size.height)
-            var actualWidth:Float = Float(image.size.width)
-
-            let maxHeight:Float = 720.0
-            let maxWidth:Float = 720.0
-
-            var imgRatio:Float = actualWidth/actualHeight
-            let maxRatio:Float = maxWidth/maxHeight
-
-            if (actualHeight > maxHeight) || (actualWidth > maxWidth)
-            {
-                if(imgRatio < maxRatio)
-                {
-                    imgRatio = maxHeight / actualHeight;
-                    actualWidth = imgRatio * actualWidth;
-                    actualHeight = maxHeight;
-                }
-                else if(imgRatio > maxRatio)
-                {
-                    imgRatio = maxWidth / actualWidth;
-                    actualHeight = imgRatio * actualHeight;
-                    actualWidth = maxWidth;
-                }
-                else
-                {
-                    actualHeight = maxHeight;
-                    actualWidth = maxWidth;
-                }
-            }
-
-            let rect:CGRect = CGRect(x: 0.0, y: 0.0, width: CGFloat(actualWidth) , height: CGFloat(actualHeight) )
-            UIGraphicsBeginImageContext(rect.size)
-            image.draw(in: rect)
-
-            let img:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-            let imageData = img.jpegData(compressionQuality: 1.0)!
-            UIGraphicsEndImageContext()
-
-            return UIImage(data: imageData)!
-        }
-    private func compressImage(_ image: UIImage) -> String?{
-        let compression = 0.4
-        let imageData = image.jpegData(compressionQuality: compression)
-        let imageBase64 = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-        return imageBase64
-    }
-}
-
-
-enum APIError: Error {
-    case invalidURL
-    case invalidResponseStatus
-    case dataTaskError
-    case corruptData
-    case decodingError
+    }*/
 }

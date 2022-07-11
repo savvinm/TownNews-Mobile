@@ -5,37 +5,38 @@
 //  Created by maksim on 18.01.2022.
 //
 
+import Combine
 import Foundation
-import UIKit
-class MissingViewModel: ObservableObject{
+
+class MissingViewModel: ObservableObject {
     
-    @Published private(set) var missings: [Missing] = []
+    @Published private(set) var missings = [Missing]()
+    private var cancellable: AnyCancellable?
+    private let interactor = Interactor()
     
     func fetchMissings() {
-        let apiService = APIService(urlString: "https://townnews.site/missinglist")
-        apiService.getJSON {(result: Result<[Missing], APIError>) in
-            switch result {
-            case .success(let missings):
-                DispatchQueue.main.async { [weak self] in
-                    self?.missings = missings
+        cancellable = interactor.fetchMissings(option: .all)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completiton in
+                guard case let .failure(error) = completiton else {
+                    return
                 }
-            case .failure(let error):
                 print(error)
-            }
-        }
+            }, receiveValue: { [weak self] missings in
+                self?.missings = missings
+            })
     }
     
     func fetchUserMissings() {
-        let apiService = APIService(urlString: "https://townnews.site/usermissinglist/" + String(UIDevice.current.identifierForVendor!.uuidString))
-        apiService.getJSON {(result: Result<[Missing], APIError>) in
-            switch result {
-            case .success(let missings):
-                DispatchQueue.main.async { [weak self] in
-                    self?.missings = missings
+        cancellable = interactor.fetchMissings(option: .createdByUser)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completiton in
+                guard case let .failure(error) = completiton else {
+                    return
                 }
-            case .failure(let error):
                 print(error)
-            }
-        }
+            }, receiveValue: { [weak self] missings in
+                self?.missings = missings
+            })
     }
 }

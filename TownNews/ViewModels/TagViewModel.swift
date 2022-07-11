@@ -5,27 +5,25 @@
 //  Created by maksim on 19.01.2022.
 //
 
+import Combine
 import Foundation
 
-class TagViewModel: ObservableObject{
+class TagViewModel: ObservableObject {
     
-    @Published private(set) var tags: [Tag] = []
+    @Published private(set) var tags = [Tag]()
+    private var cancellable: AnyCancellable?
+    private let interactor = Interactor()
     
     func fetchTags() {
-        let apiService = APIService(urlString: "https://townnews.site/tagslist")
-        apiService.getJSON {(result: Result<[Tag], APIError>) in
-            switch result {
-            case .success(let tags):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else {
-                        return
-                    }
-                    self.tags = [Tag(id: 1, title: "Все новости", important: false)]
-                    self.tags.append(contentsOf: tags)
+        cancellable = interactor.fetchTags()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completiton in
+                guard case let .failure(error) = completiton else {
+                    return
                 }
-            case .failure(let error):
                 print(error)
-            }
-        }
+            }, receiveValue: { [weak self] tags in
+                self?.tags = tags
+            })
     }
 }

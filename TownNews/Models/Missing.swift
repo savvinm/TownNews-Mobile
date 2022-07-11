@@ -6,7 +6,8 @@
 //
 
 import Foundation
-struct Missing: Codable, Identifiable{
+
+struct Missing: Codable, Identifiable {
     let id: Int
     let name: String
     let clothes: String

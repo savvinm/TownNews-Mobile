@@ -5,19 +5,18 @@
 //  Created by maksim on 26.01.2022.
 //
 
-import Foundation
-import UIKit
+import SwiftUI
 
-enum TabIdentifier: Hashable{
-    case news, find, promo, account
-}
-enum PageIdentifier: Hashable{
-    case article(id: Int)
-    case missing(id: Int)
-}
-
-extension URL{
-    var detailPage: PageIdentifier?{
+extension URL {
+    enum TabIdentifier: Hashable {
+        case news, find, promo, account
+    }
+    enum PageIdentifier: Hashable {
+        case article(id: Int)
+        case missing(id: Int)
+    }
+    
+    var detailPage: PageIdentifier? {
         guard let tab = tabIdentifier, pathComponents.count > 1, let id = Int(pathComponents[1]) else {
             return nil
         }
@@ -68,7 +67,7 @@ extension URLSession {
    }
 }
 
-extension UINavigationController{
+extension UINavigationController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         let attr = [NSAttributedString.Key.font: UIFont.systemFont(ofSize:30)]

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MobileCoreServices
+
 struct PromoView: View {
     @ObservedObject var pvm: PromoViewModel
     @State var id = 0

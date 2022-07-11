@@ -18,12 +18,12 @@ struct AppTabView: View {
         TabView(selection: $activeTab) {
             newsTab
                 .tag(TabIdentifier.news)
-            missingTab
+            /*missingTab
                 .tag(TabIdentifier.find)
             promoTab
                 .tag(TabIdentifier.promo)
             accountTab
-                .tag(TabIdentifier.account)
+                .tag(TabIdentifier.account)*/
         }
         .onOpenURL{ url in
             if articleId == nil{
