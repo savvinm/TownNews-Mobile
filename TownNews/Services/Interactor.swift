@@ -23,7 +23,7 @@ final class Interactor {
     private let apiService = APIService()
     
     private func defaultPublisher<T: Decodable>(endpoint: APIService.Endpoint) -> AnyPublisher<T, Error> {
-        return apiService.getJSON(endpoint: endpoint)
+        return apiService.getData(endpoint: endpoint)
             .mapError { $0 }
             .eraseToAnyPublisher()
     }

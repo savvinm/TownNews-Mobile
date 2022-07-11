@@ -95,7 +95,7 @@ final class APIService {
     
     
     
-    func getJSON<T: Decodable>(endpoint: Endpoint) -> AnyPublisher<T, APIError> {
+    func getData<T: Decodable>(endpoint: Endpoint) -> AnyPublisher<T, APIError> {
         guard let url = URL(string: applyEndpoint(endpoint)) else {
             return Fail(error: APIError.invalidURL)
                 .eraseToAnyPublisher()
@@ -104,11 +104,14 @@ final class APIService {
             .map { $0.data }
             .decode(type: T.self, decoder: JSONDecoder())
             .mapError { error -> APIError in
+                print(error)
                 switch error {
                 case URLError.notConnectedToInternet:
                     return .noInternetConnection
                 case URLError.badServerResponse:
                     return .invalidResponseStatus
+                case DecodingError.dataCorrupted:
+                    return .corruptData
                 default:
                     return .somethingWentWrong
                 }

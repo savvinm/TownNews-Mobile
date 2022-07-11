@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AccountView: View {
-    let avm = ArticleViewModel()
-    let mvm = MissingViewModel()
+    let articlesViewModel = ArticlesViewModel()
+    let missingsViewModel = MissingsViewModel()
     var body: some View {
-        NavigationView{
-            Form{
+        NavigationView {
+            Form {
                 accountIntents
                 accountPages
             }
@@ -21,15 +21,15 @@ struct AccountView: View {
         }
     }
     
-    private var accountPages: some View{
-        Section(header: Text("Мое")){
-            NavigationLink{
-                FavoritesView(avm: avm)
+    private var accountPages: some View {
+        Section(header: Text("Мое")) {
+            NavigationLink {
+                FavoritesView(articlesViewModel: articlesViewModel)
             } label: {
                 Text("Избранное")
             }
-            NavigationLink{
-                CreatorMissingsView(mvm: mvm)
+            NavigationLink {
+                CreatorMissingsView(missingsViewModel: missingsViewModel)
             } label: {
                 Text("Мои объявления")
             }
@@ -38,9 +38,9 @@ struct AccountView: View {
         .buttonStyle(PlainButtonStyle())
     }
     
-    private var accountIntents: some View{
-        Section(header: Text("")){
-            NavigationLink{
+    private var accountIntents: some View {
+        Section(header: Text("")) {
+            NavigationLink {
                 AdMissingView()
             } label: {
                 Text("Создать объявление о пропаже")

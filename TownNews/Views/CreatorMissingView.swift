@@ -9,14 +9,14 @@ import SwiftUI
 
 struct CreatorMissingView: View {
     let missing: Missing
+    let missingsViewModel: MissingsViewModel
     @State private var shAlert = false
     @Environment(\.presentationMode) var presentationMode:Binding<PresentationMode>
     var body: some View {
-        ScrollView{
-            if(missing.status == "accepted"){
+        ScrollView {
+            if missing.status == "accepted" {
                 MissingView(missing: missing, title: "Опубликовано")
-            }
-            else{
+            } else {
                 MissingView(missing: missing, title: "Ожидает проверки")
             }
         }
@@ -24,7 +24,7 @@ struct CreatorMissingView: View {
 
     }
     
-    private var deleteButton: some View{
+    private var deleteButton: some View {
         Button(action: {
             shAlert = true
         }, label: {
@@ -33,8 +33,7 @@ struct CreatorMissingView: View {
             .alert("Удалить данное объявление?", isPresented: $shAlert){
             Button("Нет", role: .cancel, action: {})
             Button("Да", role: .destructive, action: {
-                let api = SharedViewModel()
-                api.sendDeleteFor(missing)
+                missingsViewModel.delete(missing)
                 self.presentationMode.wrappedValue.dismiss()
             })
         }

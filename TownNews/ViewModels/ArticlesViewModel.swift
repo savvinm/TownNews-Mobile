@@ -8,15 +8,15 @@
 import Combine
 import Foundation
 
-class ArticleViewModel: ObservableObject {
+class ArticlesViewModel: ObservableObject {
     
     private let interactor = Interactor()
     private var cancellable: AnyCancellable?
     
     @Published private(set) var articles = [Article]()
-    private(set) var currentTag = 1
-    private(set) var isDeeplinking = false
-    @Published private(set) var activeArticle: Int?
+    var currentTag = 1
+    var isDeeplinking = false
+    @Published var activeArticle: Int?
     
     func change(id: Int){
         let isLoad = getOnlyOne(id: id)
@@ -98,7 +98,7 @@ class ArticleViewModel: ObservableObject {
         }
     }
     
-    func urlTo(_ article: Article) -> URL?{
+    func shareURL(to article: Article) -> URL?{
         URL(string: "https://townnews.site/article/\(article.id)")
     }
 }

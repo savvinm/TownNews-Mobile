@@ -134,9 +134,9 @@ struct AdMissingView: View {
                 HStack{
                     Spacer()
                     Button("Отправить на опубликацию"){
-                        let api = SharedViewModel()
+                        /*let api = SharedViewModel()
                         api.sendMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacteristics: specCharacteristics, dateOfBirth: birthdate, image: inputImage!, lastLocation: lastLocation, phoneNumber: phoneNumber)
-                        shAlert = true
+                        shAlert = true*/
                     }
                     .alert("Объявление отправлено на опубликацию", isPresented: $shAlert){
                         Button("OK", role: .cancel){

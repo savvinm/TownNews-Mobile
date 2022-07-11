@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-class MissingViewModel: ObservableObject {
+class MissingsViewModel: ObservableObject {
     
     @Published private(set) var missings = [Missing]()
     private var cancellable: AnyCancellable?
@@ -38,5 +38,9 @@ class MissingViewModel: ObservableObject {
             }, receiveValue: { [weak self] missings in
                 self?.missings = missings
             })
+    }
+    
+    func delete(_ missing: Missing) {
+        interactor.delete(missing)
     }
 }
