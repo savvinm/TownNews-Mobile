@@ -12,19 +12,31 @@ struct MissingsListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                if !missingsViewModel.missings.isEmpty {
-                    missingsScrollView
-                } else {
-                    emptyMessage
+                switch missingsViewModel.status {
+                case .loading:
+                    ProgressView()
+                case .success:
+                    successBlock
+                case .error(let error):
+                    Text(error.localizedDescription)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Объявления о пропаже")
             .navigationBarItems(trailing: addButton)
-            .onAppear { missingsViewModel.fetchMissings() }
+            .onAppear { missingsViewModel.fetchMissings(isForAuthor: false) }
         }
     }
     
+    private var successBlock: some View {
+        VStack {
+            if !missingsViewModel.missings.isEmpty {
+                missingsScrollView
+            } else {
+                emptyMessage
+            }
+        }
+    }
     
     private var emptyMessage: some View {
         InfoMultilineText(value: "На данный момент нет активных объявлений о пропаже людей")
@@ -40,13 +52,13 @@ struct MissingsListView: View {
             .listRowSeparator(.hidden)
         }
         .refreshable {
-            missingsViewModel.fetchMissings()
+            missingsViewModel.fetchMissings(isForAuthor: false)
         }
     }
     
     private var addButton: some View {
         Button(action: {}, label: {
-            NavigationLink(destination: AdMissingView()) {
+            NavigationLink(destination: AddMissingView()) {
                 Image(systemName: "plus.circle.fill")
             }
         })

@@ -32,7 +32,7 @@
 		B59595F427959E3D00BD7A73 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595F327959E3D00BD7A73 /* APIService.swift */; };
 		B59595FC2795B73400BD7A73 /* PromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FB2795B73400BD7A73 /* PromoView.swift */; };
 		B59595FE2795B75200BD7A73 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FD2795B75200BD7A73 /* ArticleView.swift */; };
-		B59596002795B78A00BD7A73 /* AdMissingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FF2795B78A00BD7A73 /* AdMissingView.swift */; };
+		B59596002795B78A00BD7A73 /* AddMissingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FF2795B78A00BD7A73 /* AddMissingView.swift */; };
 		B5DC56A1287C700900839F42 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC56A0287C700900839F42 /* Interactor.swift */; };
 		B5DC56A3287C822100839F42 /* DeferredTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC56A2287C822100839F42 /* DeferredTask.swift */; };
 		B5DC56A5287C8C9600839F42 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC56A4287C8C9600839F42 /* ImageService.swift */; };
@@ -43,6 +43,8 @@
 		B5E2041C279840EC002E820C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2041B279840EB002E820C /* Tag.swift */; };
 		B5E2041E27984141002E820C /* TagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2041D27984141002E820C /* TagsViewModel.swift */; };
 		B5E204222798BBCF002E820C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E204212798BBCF002E820C /* ImagePicker.swift */; };
+		B5E9A46F28831B7800BDDB11 /* ViewModelWithStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E9A46E28831B7800BDDB11 /* ViewModelWithStatus.swift */; };
+		B5E9A4712883233C00BDDB11 /* AddMissingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E9A4702883233C00BDDB11 /* AddMissingViewModel.swift */; };
 		B5EE3D7127A0A4CF00AF63ED /* MissingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EE3D7027A0A4CF00AF63ED /* MissingView.swift */; };
 		B5F3C66F27D42064005A944D /* MissingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F3C66E27D42064005A944D /* MissingPreview.swift */; };
 /* End PBXBuildFile section */
@@ -94,7 +96,7 @@
 		B59595F327959E3D00BD7A73 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		B59595FB2795B73400BD7A73 /* PromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoView.swift; sourceTree = "<group>"; };
 		B59595FD2795B75200BD7A73 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
-		B59595FF2795B78A00BD7A73 /* AdMissingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMissingView.swift; sourceTree = "<group>"; };
+		B59595FF2795B78A00BD7A73 /* AddMissingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMissingView.swift; sourceTree = "<group>"; };
 		B5DC56A0287C700900839F42 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		B5DC56A2287C822100839F42 /* DeferredTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredTask.swift; sourceTree = "<group>"; };
 		B5DC56A4287C8C9600839F42 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
@@ -105,6 +107,8 @@
 		B5E2041B279840EB002E820C /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		B5E2041D27984141002E820C /* TagsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewModel.swift; sourceTree = "<group>"; };
 		B5E204212798BBCF002E820C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		B5E9A46E28831B7800BDDB11 /* ViewModelWithStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWithStatus.swift; sourceTree = "<group>"; };
+		B5E9A4702883233C00BDDB11 /* AddMissingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMissingViewModel.swift; sourceTree = "<group>"; };
 		B5EE3D7027A0A4CF00AF63ED /* MissingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingView.swift; sourceTree = "<group>"; };
 		B5F3C66E27D42064005A944D /* MissingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,7 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				B570FF1F27A1D4380035164A /* AccountView.swift */,
-				B59595FF2795B78A00BD7A73 /* AdMissingView.swift */,
+				B59595FF2795B78A00BD7A73 /* AddMissingView.swift */,
 				B59595EA2794CC8F00BD7A73 /* AppTabView.swift */,
 				B59595FD2795B75200BD7A73 /* ArticleView.swift */,
 				B570FF2527A1F0F60035164A /* CreatorMissingsView.swift */,
@@ -217,10 +221,12 @@
 		B59595EC27959C9C00BD7A73 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B5E9A4702883233C00BDDB11 /* AddMissingViewModel.swift */,
 				B59595ED27959CCA00BD7A73 /* ArticlesViewModel.swift */,
 				B571D8DA279727B700BBD226 /* MissingsViewModel.swift */,
 				B571D8D6279714AB00BBD226 /* PromosViewModel.swift */,
 				B5E2041D27984141002E820C /* TagsViewModel.swift */,
+				B5E9A46E28831B7800BDDB11 /* ViewModelWithStatus.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -269,6 +275,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5679A4E27933BE70022DD5B /* Build configuration list for PBXNativeTarget "TownNews" */;
 			buildPhases = (
+				B5300B4B287FFB5A001EE872 /* swiftlint */,
 				B5679A2627933BD50022DD5B /* Sources */,
 				B5679A2727933BD50022DD5B /* Frameworks */,
 				B5679A2827933BD50022DD5B /* Resources */,
@@ -388,6 +395,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B5300B4B287FFB5A001EE872 /* swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if which swiftlint >/dev/null; then\n#    swiftlint\n#else \n#  echo \"SwiftLint not installed\"\n#fi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B5679A2627933BD50022DD5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -404,7 +432,7 @@
 				B5DC56A8287C948C00839F42 /* ResizableAsyncImage.swift in Sources */,
 				B59595FC2795B73400BD7A73 /* PromoView.swift in Sources */,
 				B5EE3D7127A0A4CF00AF63ED /* MissingView.swift in Sources */,
-				B59596002795B78A00BD7A73 /* AdMissingView.swift in Sources */,
+				B59596002795B78A00BD7A73 /* AddMissingView.swift in Sources */,
 				B5F3C66F27D42064005A944D /* MissingPreview.swift in Sources */,
 				B5DC56AC287C9CE000839F42 /* PromoPreview.swift in Sources */,
 				B570FF2427A1EA8D0035164A /* FavoritesView.swift in Sources */,
@@ -415,6 +443,7 @@
 				B5DC56AA287C97ED00839F42 /* InfoMultilineText.swift in Sources */,
 				B570FF2027A1D4380035164A /* AccountView.swift in Sources */,
 				B571D8D5279713CA00BBD226 /* Promo.swift in Sources */,
+				B5E9A46F28831B7800BDDB11 /* ViewModelWithStatus.swift in Sources */,
 				B570FF2227A1DF5F0035164A /* Extensions.swift in Sources */,
 				B571D8DB279727B700BBD226 /* MissingsViewModel.swift in Sources */,
 				B5E2041C279840EC002E820C /* Tag.swift in Sources */,
@@ -424,6 +453,7 @@
 				B59595FE2795B75200BD7A73 /* ArticleView.swift in Sources */,
 				B5DC56A3287C822100839F42 /* DeferredTask.swift in Sources */,
 				B5DC56B0287C9EB900839F42 /* MenuPicker.swift in Sources */,
+				B5E9A4712883233C00BDDB11 /* AddMissingViewModel.swift in Sources */,
 				B5DC56A1287C700900839F42 /* Interactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

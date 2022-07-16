@@ -21,7 +21,7 @@ extension URL {
         guard let tab = tabIdentifier, pathComponents.count > 1, let id = Int(pathComponents[1]) else {
             return nil
         }
-        switch tabIdentifier{
+        switch tabIdentifier {
         case .news: return .article(id: id)
         case .find: return .missing(id: id)
         default: return nil
@@ -32,7 +32,7 @@ extension URL {
         return scheme == "townnews.app"
     }
     
-    var tabIdentifier: TabIdentifier?{
+    var tabIdentifier: TabIdentifier? {
         guard isDeepLink else {
             return nil
         }
@@ -46,34 +46,11 @@ extension URL {
     }
 }
 
-extension URLSession {
-    
-   func syncRequest(with url: URL) -> (Data?, URLResponse?, Error?) {
-      var data: Data?
-      var response: URLResponse?
-      var error: Error?
-       
-      let dispatchGroup = DispatchGroup()
-      let task = dataTask(with: url) {
-         data = $0
-         response = $1
-         error = $2
-         dispatchGroup.leave()
-      }
-      dispatchGroup.enter()
-      task.resume()
-      dispatchGroup.wait()
-       
-      return (data, response, error)
-   }
-}
-
 extension UINavigationController {
     open override func viewDidLoad() {
         super.viewDidLoad()
-        let attr = [NSAttributedString.Key.font: UIFont.systemFont(ofSize:30)]
+        let attr = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)]
         UINavigationBar.appearance().largeTitleTextAttributes = attr
-        
     }
 }
 
@@ -110,7 +87,6 @@ extension UIImage {
             break
         @unknown default:
             fatalError("Missing...")
-            break
         }
 
         // Flip image one more time if needed to, this is to prevent flipped image
@@ -125,7 +101,6 @@ extension UIImage {
             break
         @unknown default:
             fatalError("Missing...")
-            break
         }
 
         ctx.concatenate(transform)
@@ -135,7 +110,6 @@ extension UIImage {
             ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.height, height: size.width))
         default:
             ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            break
         }
 
         guard let newCGImage = ctx.makeImage() else {

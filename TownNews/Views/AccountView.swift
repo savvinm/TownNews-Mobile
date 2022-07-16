@@ -41,7 +41,7 @@ struct AccountView: View {
     private var accountIntents: some View {
         Section(header: Text("")) {
             NavigationLink {
-                AdMissingView()
+                AddMissingView()
             } label: {
                 Text("Создать объявление о пропаже")
             }

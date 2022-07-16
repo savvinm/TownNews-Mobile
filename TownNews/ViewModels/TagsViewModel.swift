@@ -23,7 +23,8 @@ class TagsViewModel: ObservableObject {
                 }
                 print(error)
             }, receiveValue: { [weak self] tags in
-                self?.tags = tags
+                self?.tags = [Tag(id: 1, title: "Все новости", important: false)]
+                self?.tags.append(contentsOf: tags)
             })
     }
 }

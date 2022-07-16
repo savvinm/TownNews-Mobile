@@ -74,11 +74,7 @@ final class APIService {
         task.resume()
     }
     */
-    /// This needs to be done on server side when returning articles (or etc) list
-    static func getFullURLToImage(url: String) -> URL{
-        URL(string: "https://townnews.site/getimage/" + url)!
-    }
-    
+
     static func initApp() -> DeferredTask?{
         /*let url = "https://townnews.site/appinit/\(String(UIDevice.current.systemVersion))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
         let apiService = APIService(urlString: url)
@@ -92,8 +88,6 @@ final class APIService {
         api.postMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacterisitcs: specCharacteristics, dateOfBirth: dateOfBirth, image: image, lastLocation: lastLocation, phoneNumber: phoneNumber)*/
     }
     */
-    
-    
     
     func getData<T: Decodable>(endpoint: Endpoint) -> AnyPublisher<T, APIError> {
         guard let url = URL(string: applyEndpoint(endpoint)) else {

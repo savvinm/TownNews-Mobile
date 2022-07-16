@@ -11,16 +11,28 @@ struct FavoritesView: View {
     @ObservedObject var articlesViewModel: ArticlesViewModel
     var body: some View {
         VStack {
-            if articlesViewModel.articles.isEmpty {
-                emptyMessage
-            } else {
-                favoriteScrollView
+            switch articlesViewModel.status {
+            case .loading:
+                ProgressView()
+            case .success:
+                successBlock
+            case .error(let error):
+                Text(error.localizedDescription)
             }
         }
         .navigationTitle("Избранное")
         .onAppear { articlesViewModel.fetchFavorite() }
     }
     
+    private var successBlock: some View {
+        VStack {
+            if articlesViewModel.articles.isEmpty {
+                emptyMessage
+            } else {
+                favoriteScrollView
+            }
+        }
+    }
     
     private var favoriteScrollView: some View {
         List {
@@ -36,6 +48,7 @@ struct FavoritesView: View {
             NavigationLink(destination: ArticleView(article: article, articlesViewModel: articlesViewModel), label: { EmptyView() })
             ArticlePreview(article: article)
         }
+        .frame(height: UIScreen.main.bounds.width * 0.8)
         .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
         .listRowSeparator(.hidden)

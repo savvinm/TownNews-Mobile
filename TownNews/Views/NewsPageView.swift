@@ -14,8 +14,7 @@ struct NewsPageView: View {
     var body: some View {
         NavigationView {
             List {
-                MenuPicker(tagsViewModel: tagsViewModel, articlesViewModel: articlesViewModel)
-                    .listRowBackground(Color.clear)
+                filter
                 articlesForEach
             }
             .navigationTitle("Новости")
@@ -42,6 +41,16 @@ struct NewsPageView: View {
         }
     }
     
+    private var filter: some View {
+        HStack {
+            Spacer()
+            MenuPicker(tagsViewModel: tagsViewModel, articlesViewModel: articlesViewModel)
+                .frame(width: UIScreen.main.bounds.width * 0.75, height: 50)
+           Spacer()
+        }
+        .listRowBackground(Color.clear)
+    }
+    
     private var articlesForEach: some View {
         ForEach(articlesViewModel.articles) { article in
             ZStack {
@@ -54,13 +63,13 @@ struct NewsPageView: View {
                     ArticlePreview(article: article)
                 }
             }
+            .frame(height: UIScreen.main.bounds.width * 0.8)
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
             .listRowSeparator(.hidden)
         }
     }
 }
-
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {

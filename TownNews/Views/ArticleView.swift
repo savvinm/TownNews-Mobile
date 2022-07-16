@@ -11,7 +11,7 @@ struct ArticleView: View {
     let article: Article
     let articlesViewModel: ArticlesViewModel
     var body: some View {
-        ScrollView{
+        ScrollView {
             articleBody
                 .navigationBarItems(trailing: navigationButtons)
         }
@@ -23,22 +23,27 @@ struct ArticleView: View {
                 Text(article.title)
                     .font(.headline)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal)
                 //Spacer()
             }
             articleImage
-            HStack {
-                Text("Фото: " + article.photoAuthor)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Spacer()
+            VStack {
+                photoAuthor
+                articleContent
+                    .padding(.top, 1)
             }
-                //.padding(.top, -3)
-                .padding(.horizontal, 10)
-            articleContent
-                .padding(.horizontal, 10)
-                .padding(.top, 1)
+            .padding(.horizontal, 10)
         }
-        .padding(.bottom)
+        .padding(.bottom, 15)
+    }
+    
+    private var photoAuthor: some View {
+        HStack {
+            Text("Фото: " + article.photoAuthor)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+        }
     }
     
     private var navigationButtons: some View {
@@ -52,11 +57,7 @@ struct ArticleView: View {
         Button(action: {
             articlesViewModel.toggleFavorite(for: article)
         }, label: {
-            if article.isFavorite {
-                Image(systemName: "bookmark.fill")
-            } else {
-                Image(systemName: "bookmark")
-            }
+            article.isFavorite ? Image(systemName: "bookmark.fill") : Image(systemName: "bookmark")
         })
     }
     
@@ -65,7 +66,6 @@ struct ArticleView: View {
             Text(article.content)
                 .font(.system(size: 15, weight: .regular, design: .default))
                 .padding(.bottom, 3)
-            //.foregroundColor(Color(.systemGray))
             HStack {
                 Text(article.creationTime)
                 Spacer()
@@ -78,7 +78,7 @@ struct ArticleView: View {
     
     private var articleImage: some View {
         ResizableAsyncImage(stringURL: article.imageUrl)
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.6)
             .clipped()
     }
     

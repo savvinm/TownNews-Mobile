@@ -13,10 +13,13 @@ struct PromoView: View {
     var body: some View {
         NavigationView {
             VStack {
-                if !promosViewModel.promos.isEmpty {
-                    promoScrollView
-                } else {
-                    emptyMessage
+                switch promosViewModel.status {
+                case .loading:
+                    ProgressView()
+                case .success:
+                    successBlock
+                case .error(let error):
+                    Text(error.localizedDescription)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -24,6 +27,16 @@ struct PromoView: View {
             .onAppear {
                 id = 0
                 promosViewModel.fetchPromos()
+            }
+        }
+    }
+    
+    private var successBlock: some View {
+        VStack {
+            if !promosViewModel.promos.isEmpty {
+                promoScrollView
+            } else {
+                emptyMessage
             }
         }
     }
@@ -53,7 +66,6 @@ struct PromoView: View {
         InfoMultilineText(value: "На данный момент нет активных предложений")
     }
 }
-
 
 struct PromoView_Previews: PreviewProvider {
     static var previews: some View {

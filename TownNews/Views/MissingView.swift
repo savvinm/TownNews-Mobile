@@ -22,7 +22,6 @@ struct MissingView: View {
         
     }
     
-    
     private var missingBody: some View {
         VStack {
             MissingSection(label: "Имя", value: missing.name)

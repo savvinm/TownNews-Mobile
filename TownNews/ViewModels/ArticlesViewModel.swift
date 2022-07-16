@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-class ArticlesViewModel: ObservableObject {
+class ArticlesViewModel: ViewModelWithStatus, ObservableObject {
     
     private let interactor = Interactor()
     private var cancellable: AnyCancellable?
@@ -17,21 +17,22 @@ class ArticlesViewModel: ObservableObject {
     var currentTag = 1
     var isDeeplinking = false
     @Published var activeArticle: Int?
+    @Published private(set) var status = ViewModelStatus.loading
     
-    func change(id: Int){
+    func change(id: Int) {
         let isLoad = getOnlyOne(id: id)
-        if isLoad{
+        if isLoad {
             activeArticle = id
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){ [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) { [weak self] in
                 self?.isDeeplinking = false
             }
-        } else{
+        } else {
             //fetchArticleBy(id)
         }
     }
 
-    func getOnlyOne(id: Int) -> Bool{
-        if let index = articles.firstIndex(where: { $0.id == id }){
+    func getOnlyOne(id: Int) -> Bool {
+        if let index = articles.firstIndex(where: { $0.id == id }) {
             var newList = [Article]()
             newList.append(articles[index])
             articles = newList
@@ -65,7 +66,7 @@ class ArticlesViewModel: ObservableObject {
     }*/
     
     func fetchArticles() {
-        let option: Interactor.ArticlesListOption = currentTag > 1 ? .forTag(filterTag: currentTag) : .all
+        let option: Interactor.ArticlesListOption = currentTag > 1 ? .forTag(filterTag: currentTag - 1) : .all
         cancellable = interactor.fetchArticles(option: option)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completiton in
@@ -75,6 +76,7 @@ class ArticlesViewModel: ObservableObject {
                 print(error)
             }, receiveValue: { [weak self] articles in
                 self?.articles = articles
+                self?.status = .success
             })
     }
     
@@ -88,17 +90,18 @@ class ArticlesViewModel: ObservableObject {
                 print(error)
             }, receiveValue: { [weak self] articles in
                 self?.articles = articles
+                self?.status = .success
             })
     }
     
-    func toggleFavorite(for article: Article){
+    func toggleFavorite(for article: Article) {
         if let index = articles.firstIndex(where: { $0.id == article.id }) {
             interactor.toggleArticleFavorite(article)
             articles[index].isFavorite.toggle()
         }
     }
     
-    func shareURL(to article: Article) -> URL?{
+    func shareURL(to article: Article) -> URL? {
         URL(string: "https://townnews.site/article/\(article.id)")
     }
 }

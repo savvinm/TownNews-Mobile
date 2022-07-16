@@ -10,14 +10,15 @@ import SwiftUI
 struct ArticlePreview: View {
     let article: Article
     var body: some View {
-        VStack {
-            previewImage
-            Spacer()
-            previewTitle
-            Spacer()
-            previewTag
+        GeometryReader { geometry in
+            VStack {
+                previewImage(in: geometry)
+                Spacer()
+                previewTitle
+                Spacer()
+                previewTag
+            }
         }
-        .frame(height: UIScreen.main.bounds.height * 0.45)
         .background(Color(.systemGray5))
         .cornerRadius(10)
     }
@@ -39,9 +40,9 @@ struct ArticlePreview: View {
             .padding(.horizontal, 3)
     }
     
-    private var previewImage: some View {
+    private func previewImage(in geometry: GeometryProxy) -> some View {
         ResizableAsyncImage(stringURL: article.imageUrl)
-            .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+            .frame(width: geometry.size.width, height: geometry.size.height * 0.65)
             .clipped()
     }
 }

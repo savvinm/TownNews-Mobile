@@ -19,11 +19,16 @@ struct MenuPicker: View {
     }
     
     var body: some View {
-        VStack {
+        GeometryReader { geometry in
             Menu {
                 pickerBody
             } label: {
                 pickerLabel
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .background(Color(.systemGray5))
+                    .cornerRadius(15)
             }
         }
     }
@@ -50,17 +55,11 @@ struct MenuPicker: View {
         }
     }
     
-    private var pickerLabel: some View{
+    private var pickerLabel: some View {
         HStack {
             if tagsViewModel.tags.count > 0 {
-                Text(tagsViewModel.tags[selection-1].title)
+                Text(tagsViewModel.tags[selection - 1].title)
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.75, height: 20)
-        .font(.headline)
-        .padding()
-        .foregroundColor(.primary)
-        .background(Color(.systemGray5))
-        .cornerRadius(15)
     }
 }

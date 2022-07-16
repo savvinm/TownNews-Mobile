@@ -11,14 +11,27 @@ struct CreatorMissingsView: View {
     @ObservedObject var missingsViewModel: MissingsViewModel
     var body: some View {
         VStack {
+            switch missingsViewModel.status {
+            case .loading:
+                ProgressView()
+            case .success:
+                successBlock
+            case .error(let error):
+                Text(error.localizedDescription)
+            }
+        }
+        .navigationTitle("Мои объявления")
+        .onAppear { missingsViewModel.fetchMissings(isForAuthor: true) }
+    }
+    
+    private var successBlock: some View {
+        VStack {
             if missingsViewModel.missings.isEmpty {
                 emptyMessage
             } else {
                 missingsScrollView
             }
         }
-        .navigationTitle("Мои объявления")
-        .onAppear { missingsViewModel.fetchUserMissings() }
     }
     
     private var missingsScrollView: some View {
@@ -31,7 +44,7 @@ struct CreatorMissingsView: View {
             .listRowSeparator(.hidden)
         }
         .refreshable {
-            missingsViewModel.fetchUserMissings()
+            missingsViewModel.fetchMissings(isForAuthor: true)
         }
     }
     

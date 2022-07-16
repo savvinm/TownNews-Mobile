@@ -8,34 +8,24 @@
 import Combine
 import Foundation
 
-class MissingsViewModel: ObservableObject {
+class MissingsViewModel: ViewModelWithStatus, ObservableObject {
     
     @Published private(set) var missings = [Missing]()
     private var cancellable: AnyCancellable?
     private let interactor = Interactor()
+    @Published private(set) var status = ViewModelStatus.success
     
-    func fetchMissings() {
-        cancellable = interactor.fetchMissings(option: .all)
+    func fetchMissings(isForAuthor: Bool) {
+        cancellable = interactor.fetchMissings(option: isForAuthor ? .createdByUser : .all)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completiton in
+            .sink(receiveCompletion: { [weak self] completiton in
                 guard case let .failure(error) = completiton else {
                     return
                 }
                 print(error)
+                self?.status = .error(error)
             }, receiveValue: { [weak self] missings in
-                self?.missings = missings
-            })
-    }
-    
-    func fetchUserMissings() {
-        cancellable = interactor.fetchMissings(option: .createdByUser)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completiton in
-                guard case let .failure(error) = completiton else {
-                    return
-                }
-                print(error)
-            }, receiveValue: { [weak self] missings in
+                self?.status = .success
                 self?.missings = missings
             })
     }

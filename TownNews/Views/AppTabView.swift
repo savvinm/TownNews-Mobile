@@ -32,7 +32,6 @@ struct AppTabView: View {
         }
     }
     
-    
     private func onURL(url: URL) {
         guard let tab = url.tabIdentifier else {
             return
@@ -44,8 +43,7 @@ struct AppTabView: View {
         }
         activeTab = tab
     }
-    
-    
+
     private var missingTab: some View {
         MissingsListView(missingsViewModel: missingsViewModel).tabItem() {
             tabLabel(text: "Объявления", imageName: "person.fill.questionmark")
@@ -76,7 +74,6 @@ struct AppTabView: View {
             Text(text)
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

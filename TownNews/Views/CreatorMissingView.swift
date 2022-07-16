@@ -11,7 +11,7 @@ struct CreatorMissingView: View {
     let missing: Missing
     let missingsViewModel: MissingsViewModel
     @State private var shAlert = false
-    @Environment(\.presentationMode) var presentationMode:Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         ScrollView {
             if missing.status == "accepted" {
@@ -30,7 +30,7 @@ struct CreatorMissingView: View {
         }, label: {
             Image(systemName: "trash.fill")
         })
-            .alert("Удалить данное объявление?", isPresented: $shAlert){
+        .alert("Удалить данное объявление?", isPresented: $shAlert){
             Button("Нет", role: .cancel, action: {})
             Button("Да", role: .destructive, action: {
                 missingsViewModel.delete(missing)
@@ -39,4 +39,3 @@ struct CreatorMissingView: View {
         }
     }
 }
-
