@@ -7,13 +7,13 @@
 
 import Foundation
 
-class TagViewModel: ObservableObject{
+class TagsViewModel: ObservableObject{
     
     @Published private(set) var tags: [Tag] = []
     
     func fetchTags() {
         let apiService = APIService(urlString: "https://townnews.site/tagslist")
-        apiService.getJSON {(result: Result<[Tag], APIError>) in
+        apiService.getJSON { (result: Result<[Tag], APIError>) in
             switch result {
             case .success(let tags):
                 DispatchQueue.main.async { [weak self] in

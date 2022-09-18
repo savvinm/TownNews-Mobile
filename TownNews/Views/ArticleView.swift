@@ -9,61 +9,64 @@ import SwiftUI
 
 struct ArticleView: View {
     let article: Article
-    let avm: ArticleViewModel
+    let articlesViewModel: ArticlesViewModel
     var body: some View {
-        ScrollView{
-            VStack{
-                HStack{
-                    Text(article.title)
-                        .font(.headline)
-                        .multilineTextAlignment(.center)
-                    //Spacer()
-                }
-                articleImage
-                HStack{
-                    Text("Фото: " + article.photoAuthor)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                }
-                //.padding(.top, -3)
-                .padding(.horizontal, 10)
-                articleBody
-                    .padding(.horizontal, 10)
-                    .padding(.top, 1)
-            }
-            .padding(.bottom)
+        ScrollView {
+            articleBody
+                .navigationBarItems(trailing: navigationButtons)
         }
-        .navigationBarItems(trailing: navigationButtons)
     }
     
-    private var navigationButtons: some View{
-        HStack{
+    private var articleBody: some View {
+        VStack {
+            HStack {
+                Text(article.title)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                //Spacer()
+            }
+            articleImage
+            VStack {
+                photoAuthor
+                articleContent
+                    .padding(.top, 1)
+            }
+            .padding(.horizontal, 10)
+        }
+        .padding(.bottom, 15)
+    }
+    
+    private var photoAuthor: some View {
+        HStack {
+            Text("Фото: " + article.photoAuthor)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+        }
+    }
+    
+    private var navigationButtons: some View {
+        HStack {
             shareButton
             favoriteButton
         }
     }
     
-    private var favoriteButton: some View{
+    private var favoriteButton: some View {
         Button(action: {
-            avm.toggleFavorite(for: article)
+            articlesViewModel.toggleFavorite(for: article)
         }, label: {
-            if(article.isFavorite){
-                Image(systemName: "bookmark.fill")
-            }
-            else{
-                Image(systemName: "bookmark")
-            }
+            article.isFavorite ? Image(systemName: "bookmark.fill") : Image(systemName: "bookmark")
         })
     }
     
-    private var articleBody: some View{
-        VStack{
+    private var articleContent: some View {
+        VStack {
             Text(article.content)
                 .font(.system(size: 15, weight: .regular, design: .default))
                 .padding(.bottom, 3)
-            //.foregroundColor(Color(.systemGray))
-            HStack{
+            HStack {
                 Text(article.creationTime)
                 Spacer()
                 Text("#" + article.tag)
@@ -73,22 +76,15 @@ struct ArticleView: View {
         }
     }
     
-    private var articleImage: some View{
-        AsyncImage(url: SharedViewModel.getFullURLToImage(url: article.imageUrl)){ image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.3)
-                .clipped()
-        } placeholder: {
-            ProgressView().frame(width: 100, height: 100)
-        }
-        
+    private var articleImage: some View {
+        ResizableAsyncImage(stringURL: article.imageUrl)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.6)
+            .clipped()
     }
     
-    private var shareButton: some View{
+    private var shareButton: some View {
         Button(action: {
-            guard let url = avm.urlTo(article) else {
+            guard let url = articlesViewModel.urlTo(article) else {
                 return
             }
             let shareSheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)

@@ -6,7 +6,8 @@
 //
 
 import Foundation
-struct Promo: Codable, Identifiable{
+
+struct Promo: Codable, Identifiable {
     let id: Int
     let title: String
     let promocode: String

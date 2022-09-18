@@ -6,7 +6,8 @@
 //
 
 import Foundation
-struct Tag: Codable, Identifiable, Hashable{
+
+struct Tag: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
     let important: Bool

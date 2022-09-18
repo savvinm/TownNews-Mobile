@@ -5,33 +5,29 @@
 //  Created by Maksim Savvin on 05.03.2022.
 //
 
-import Foundation
-import UIKit
+import SwiftUI
+
 class SharedViewModel{
     
-    func sendArticleIdForFavorite(_ id: Int){
+    func sendArticleIdForFavorite(_ id: Int) {
         let url = URL(string: "https://townnews.site/addfavorite/" + String(id) + "/" + String(UIDevice.current.identifierForVendor!.uuidString))
         let task = URLSession.shared.dataTask(with: url!)
         task.resume()
     }
     
-    func sendDeleteFor(_ missing: Missing){
+    func sendDeleteFor(_ missing: Missing) {
         let url = URL(string: "https://townnews.site/deletemissing/" + String(missing.id) + "/" + String(UIDevice.current.identifierForVendor!.uuidString))
         let task = URLSession.shared.dataTask(with: url!)
         task.resume()
     }
     
-    static func getFullURLToImage(url: String) -> URL{
-        URL(string: "https://townnews.site/getimage/" + url)!
-    }
-    
-    static func initApp() -> DeferredTask?{
+    static func initApp() -> DeferredTask? {
         let url = "https://townnews.site/appinit/\(String(UIDevice.current.systemVersion))/\(String(UIDevice.current.identifierForVendor!.uuidString))"
         let apiService = APIService(urlString: url)
         return apiService.fetchTask()
     }
     
-    func sendMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacteristics: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String){
+    func sendMissing(firstName: String, secondName: String, clothes: String, sex: String, characteristics: String, specCharacteristics: String, dateOfBirth: Date, image: UIImage, lastLocation: String, phoneNumber: String) {
         let url = "https://townnews.site/addmissing"
         let api = APIService(urlString: url)
         api.postMissing(firstName: firstName, secondName: secondName, clothes: clothes, sex: sex, characteristics: characteristics, specCharacterisitcs: specCharacteristics, dateOfBirth: dateOfBirth, image: image, lastLocation: lastLocation, phoneNumber: phoneNumber)

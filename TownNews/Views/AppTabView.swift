@@ -10,10 +10,10 @@ import SwiftUI
 struct AppTabView: View {
     @State var activeTab = TabIdentifier.news
     let articleId: Int?
-    let avm = ArticleViewModel()
-    let pvm = PromoViewModel()
-    let mvm = MissingViewModel()
-    let tvm = TagViewModel()
+    let articlesViewModel = ArticlesViewModel()
+    let promosViewModel = PromosViewModel()
+    let missingsViewModel = MissingsViewModel()
+    let tagsViewModel = TagsViewModel()
     var body: some View {
         TabView(selection: $activeTab) {
             newsTab
@@ -25,60 +25,53 @@ struct AppTabView: View {
             accountTab
                 .tag(TabIdentifier.account)
         }
-        .onOpenURL{ url in
-            if articleId == nil{
+        .onOpenURL { url in
+            if articleId == nil {
                 onURL(url: url)
             }
         }
     }
     
-    
-    private func onURL(url: URL){
+    private func onURL(url: URL) {
         guard let tab = url.tabIdentifier else {
             return
         }
-        if tab == .news{
-            if case .article(_) = url.detailPage{
-                avm.isDeeplinking = true
+        if tab == .news {
+            if case .article(_) = url.detailPage {
+                articlesViewModel.isDeeplinking = true
             }
         }
         activeTab = tab
     }
-    
-    
-    private var missingTab: some View{
-        MissingsListView(mvm:mvm).tabItem(){
-            VStack{
-                Image(systemName: "person.fill.questionmark")
-                Text("Объявления")
-            }
+
+    private var missingTab: some View {
+        MissingsListView(missingsViewModel: missingsViewModel).tabItem() {
+            tabLabel(text: "Объявления", imageName: "person.fill.questionmark")
         }
     }
     
     private var accountTab: some View{
-        AccountView().tabItem(){
-            VStack{
-                Image(systemName: "list.bullet")
-                Text("Аккаунт")
-            }
+        AccountView().tabItem() {
+            tabLabel(text: "Аккаунт", imageName: "list.bullet")
         }
     }
     
-    private var promoTab: some View{
-        PromoView(pvm:pvm).tabItem(){
-            VStack{
-                Image(systemName: "giftcard.fill")
-                Text("Промокоды")
-            }
+    private var promoTab: some View {
+        PromoView(promosViewModel: promosViewModel).tabItem() {
+            tabLabel(text: "Промокоды", imageName: "giftcard.fill")
         }
     }
     
-    private var newsTab: some View{
-        NewsPageView(articleId: articleId, avm: avm, tvm: tvm).tabItem(){
-            VStack{
-                Image(systemName: "house.fill")
-                Text("Новости")
-            }
+    private var newsTab: some View {
+        NewsPageView(articleId: articleId, articlesViewModel: articlesViewModel, tagsViewModel: tagsViewModel).tabItem() {
+            tabLabel(text: "Новости", imageName: "house.fill")
+        }
+    }
+    
+    private func tabLabel(text: String, imageName: String) -> some View {
+        VStack {
+            Image(systemName: imageName)
+            Text(text)
         }
     }
 }

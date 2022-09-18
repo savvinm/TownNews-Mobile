@@ -8,45 +8,47 @@
 import SwiftUI
 
 struct CreatorMissingsView: View {
-    @ObservedObject var mvm: MissingViewModel
+    @ObservedObject var missingsViewModel: MissingsViewModel
     var body: some View {
-        VStack{
-            if(mvm.missings.isEmpty){
-                emptyMessage
-            } else{
-                missingsScrollView
+        VStack {
+            switch missingsViewModel.status {
+            case .loading:
+                ProgressView()
+            case .success:
+                successBlock
+            case .error(let error):
+                Text(error.localizedDescription)
             }
         }
         .navigationTitle("Мои объявления")
-        .onAppear(){ mvm.fetchUserMissings() }
+        .onAppear { missingsViewModel.fetchMissings(isForAuthor: true) }
     }
     
-    private var missingsScrollView: some View{
-        List{
-            ForEach(mvm.missings){ MissingPreview(missing: $0, isCreator: true) }
+    private var successBlock: some View {
+        VStack {
+            if missingsViewModel.missings.isEmpty {
+                emptyMessage
+            } else {
+                missingsScrollView
+            }
+        }
+    }
+    
+    private var missingsScrollView: some View {
+        List {
+            ForEach(missingsViewModel.missings) { missing in
+                MissingPreview(missing: missing, missingsViewModel: missingsViewModel, isCreator: true)
+            }
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
             .listRowSeparator(.hidden)
         }
         .refreshable {
-            mvm.fetchUserMissings()
+            missingsViewModel.fetchMissings(isForAuthor: true)
         }
     }
     
-    private var emptyMessage: some View{
-        VStack{
-            Spacer()
-            Text("Не найдено созданных вами объявлений").multilineTextAlignment(.center)
-            Spacer()
-        }
-        .padding()
-        .foregroundColor(.secondary)
-    }
-}
-
-struct UserMissingView_Previews: PreviewProvider {
-    static var previews: some View {
-        let mvm = MissingViewModel()
-        CreatorMissingsView(mvm:mvm)
+    private var emptyMessage: some View {
+        InfoMultilineText(value: "Не найдено созданных вами объявлений")
     }
 }

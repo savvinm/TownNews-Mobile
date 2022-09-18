@@ -11,8 +11,8 @@ struct MissingView: View {
     let missing: Missing
     let title: String?
     var body: some View {
-        ScrollView{
-            VStack{
+        ScrollView {
+            VStack {
                 Text(title ?? "Пропал человек").font(.headline)
                 missingImage
                 missingBody
@@ -22,9 +22,8 @@ struct MissingView: View {
         
     }
     
-    
-    private var missingBody: some View{
-        VStack{
+    private var missingBody: some View {
+        VStack {
             MissingSection(label: "Имя", value: missing.name)
             
             MissingSection(label: "Возраст", value: missing.age)
@@ -44,28 +43,22 @@ struct MissingView: View {
         .font(.callout)
     }
     
-    private var missingImage: some View{
-        AsyncImage(url: SharedViewModel.getFullURLToImage(url: missing.imageUrl)){ image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: UIScreen.main.bounds.width * 0.95)
-        } placeholder: {
-            ProgressView().frame(width: 100, height: 100)
-        }
+    private var missingImage: some View {
+        ResizableAsyncImage(stringURL: missing.imageUrl)
+            .frame(width: UIScreen.main.bounds.width * 0.95)
     }
 }
 
-private struct MissingSection: View{
+private struct MissingSection: View {
     let label: String
     let value: String
-    var body: some View{
-        VStack{
-            HStack{
+    var body: some View {
+        VStack {
+            HStack {
                 Text(label + ":").font(.body.weight(.bold))
                 Spacer()
             }
-            HStack{
+            HStack {
                 Text(value)
                 Spacer()
             }
