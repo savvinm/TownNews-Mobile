@@ -40,6 +40,8 @@
 		B59595FC2795B73400BD7A73 /* PromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FB2795B73400BD7A73 /* PromoView.swift */; };
 		B59595FE2795B75200BD7A73 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FD2795B75200BD7A73 /* ArticleView.swift */; };
 		B59596002795B78A00BD7A73 /* AdMissingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59595FF2795B78A00BD7A73 /* AdMissingView.swift */; };
+		B5C163CB28D79A8100D2C6C0 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C163CA28D79A8100D2C6C0 /* OnboardingViewModel.swift */; };
+		B5C163CD28D79C8900D2C6C0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C163CC28D79C8900D2C6C0 /* OnboardingView.swift */; };
 		B5E2041C279840EC002E820C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2041B279840EB002E820C /* Tag.swift */; };
 		B5E2041E27984141002E820C /* TagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2041D27984141002E820C /* TagsViewModel.swift */; };
 		B5E204222798BBCF002E820C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E204212798BBCF002E820C /* ImagePicker.swift */; };
@@ -103,6 +105,8 @@
 		B59595FB2795B73400BD7A73 /* PromoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoView.swift; sourceTree = "<group>"; };
 		B59595FD2795B75200BD7A73 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		B59595FF2795B78A00BD7A73 /* AdMissingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMissingView.swift; sourceTree = "<group>"; };
+		B5C163CA28D79A8100D2C6C0 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		B5C163CC28D79C8900D2C6C0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B5E2041B279840EB002E820C /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		B5E2041D27984141002E820C /* TagsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewModel.swift; sourceTree = "<group>"; };
 		B5E204212798BBCF002E820C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -223,6 +227,7 @@
 				B59595E82794C4A800BD7A73 /* MissingsListView.swift */,
 				B5EE3D7027A0A4CF00AF63ED /* MissingView.swift */,
 				B5679A2F27933BD50022DD5B /* NewsPageView.swift */,
+				B5C163CE28D79FFC00D2C6C0 /* Onboardings */,
 				B59595FB2795B73400BD7A73 /* PromoView.swift */,
 				B51F410328D6FF6300AECFE7 /* Shared */,
 			);
@@ -239,6 +244,7 @@
 				B5F3C66B27D3ABEF005A944D /* SharedViewModel.swift */,
 				B5E2041D27984141002E820C /* TagsViewModel.swift */,
 				B51F410C28D7060200AECFE7 /* ViewModelWithStatus.swift */,
+				B5C163CA28D79A8100D2C6C0 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -263,6 +269,14 @@
 				B51F411028D70E1800AECFE7 /* ImageService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B5C163CE28D79FFC00D2C6C0 /* Onboardings */ = {
+			isa = PBXGroup;
+			children = (
+				B5C163CC28D79C8900D2C6C0 /* OnboardingView.swift */,
+			);
+			path = Onboardings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -405,9 +419,11 @@
 				B571D8D7279714AC00BBD226 /* PromosViewModel.swift in Sources */,
 				B51F410B28D7056900AECFE7 /* PromoPreview.swift in Sources */,
 				B51F411128D70E1800AECFE7 /* ImageService.swift in Sources */,
+				B5C163CB28D79A8100D2C6C0 /* OnboardingViewModel.swift in Sources */,
 				B59595EB2794CC9200BD7A73 /* AppTabView.swift in Sources */,
 				B571D8D92797265A00BBD226 /* Missing.swift in Sources */,
 				B59595FC2795B73400BD7A73 /* PromoView.swift in Sources */,
+				B5C163CD28D79C8900D2C6C0 /* OnboardingView.swift in Sources */,
 				B51F410D28D7060300AECFE7 /* ViewModelWithStatus.swift in Sources */,
 				B5EE3D7127A0A4CF00AF63ED /* MissingView.swift in Sources */,
 				B59596002795B78A00BD7A73 /* AdMissingView.swift in Sources */,
