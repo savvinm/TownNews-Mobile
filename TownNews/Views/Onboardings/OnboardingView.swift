@@ -10,11 +10,10 @@ import SwiftUI
 struct OnboardingView: View {
     @ObservedObject var onboardingViewModel: OnboardingViewModel
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack(alignment: .bottom) {
             onboardingItem
-            Spacer()
             actionButton
+                .padding()
         }
         .padding()
     }
@@ -22,11 +21,11 @@ struct OnboardingView: View {
     private var onboardingItem: some View {
         switch onboardingViewModel.currentScreen {
         case .newsInfo:
-            return Text("news")
+            return OnboardingScreen(imageName: "newsIcon", description: "Читайте последние новости города и первыми узнавайте о важных событиях", imageSize: 0.4)
         case .missingsInfo:
-            return Text("missings")
-        case .welcome: return
-            Text("welcome")
+            return OnboardingScreen(imageName: "missingIcon", description: "Создавайте объявления о пропаже и помогайте людям найти их родных и близких", imageSize: 0.4)
+        case .welcome:
+            return OnboardingScreen(imageName: "AppIcon", description: "TownNews - приложение для вашего города", imageSize: 0.3)
         }
     }
     
@@ -43,14 +42,30 @@ struct OnboardingView: View {
     private var nextButton: some View {
         Button(action: { onboardingViewModel.showNextScreen() },
                label: {
-            Text("Дальше")
+            Text("Далее")
+                .foregroundColor(.white)
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 25)
+                        .foregroundColor(.cyan)
+                        .frame(width: UIScreen.main.bounds.width * 0.8)
+                }
         })
+        .buttonStyle(PlainButtonStyle())
     }
     
     private var closeButton: some View {
         Button(action: { onboardingViewModel.closeOnboarding() },
                label: {
             Text("Закрыть")
+                .foregroundColor(.white)
+                .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: 25)
+                        .foregroundColor(.cyan)
+                        .frame(width: UIScreen.main.bounds.width * 0.8)
+                }
         })
+        .buttonStyle(PlainButtonStyle())
     }
 }

@@ -99,8 +99,8 @@ struct AddMissingView: View {
             if let image = addViewModel.image {
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.5)
                     .scaledToFill()
+                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.5)
                     .clipped()
                     .cornerRadius(10)
             }

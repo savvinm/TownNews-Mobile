@@ -24,10 +24,14 @@ struct TownNewsApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            if onboardingViewModel.isDoneOnboarding {
-                AppTabView(articleId: articleId)
+            if !UserDefaults.standard.bool(forKey: "isOnboardingShown") {
+                if !onboardingViewModel.isDoneOnboarding {
+                    OnboardingView(onboardingViewModel: onboardingViewModel)
+                } else {
+                    AppTabView(articleId: articleId)
+                }
             } else {
-                OnboardingView(onboardingViewModel: onboardingViewModel)
+                AppTabView(articleId: articleId)
             }
         }
     }

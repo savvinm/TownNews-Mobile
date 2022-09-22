@@ -39,6 +39,7 @@ class OnboardingViewModel: ObservableObject {
     }
     
     func closeOnboarding() {
+        UserDefaults.standard.set(true, forKey: "isOnboardingShown")
         isDoneOnboarding = true
     }
     
